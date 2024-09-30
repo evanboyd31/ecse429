@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "thingifier-tests"
+version = "0.1.0"
+description = ""
+authors = ["Charles Blancas <86479293+charlesblancas@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["thingifier-tests"]
