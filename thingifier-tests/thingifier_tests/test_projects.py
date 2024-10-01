@@ -193,4 +193,74 @@ def test_post_project_using_id(before_each):
   assert response.json().get("completed") == ("true" if data.get("completed") else "false")
   assert response.json().get("active") == ("true" if data.get("active") else "false")
   
+def test_delete_project_using_id(before_each):
+  project = {
+      "title": "title",
+      "completed": False,
+      "active": True,
+      "description": "description"
+  }
+  
+  response = httpx.post(f"{url}projects", json=project)
+  
+  assert response.status_code == 201
+  
+  id = response.json().get("id")
+  
+  # ensure 200 response and no response body
+  response = httpx.delete(f"{url}projects/{id}")
+  
+  assert response.status_code == 200
+  assert not response.content
+  
+  # ensure that an error occurs when we attempt to get the project with the id we just deleted
+  
+  response = httpx.get(f"{url}projects/{id}")
+  assert response.status_code == 404
+  assert response.json() == {"errorMessages":[f"Could not find an instance with projects/{id}"]}
+  
+def test_delete_project_using_invalid_id(before_each):
+  id = -1
+  # ensure the project with id does not exist
+  response = httpx.get(f"{url}projects/{id}")
+  assert response.status_code == 404
+  assert response.json() == {"errorMessages":[f"Could not find an instance with projects/{id}"]}
+  
+  # for reasons, the error messages for get and delete are different when the project doesn't exist
+  response = httpx.delete(f"{url}projects/{id}")
+  assert response.status_code == 404
+  assert response.json() == {"errorMessages":[f"Could not find any instances with projects/{id}"]}
+  
+def test_delete_all_projects(before_each):
+  
+  project = {
+      "title": "title",
+      "completed": False,
+      "active": True,
+      "description": "description"
+  }
+  
+  response = httpx.post(f"{url}projects", json=project)
+  
+  assert response.status_code == 201
+  
+  id = response.json().get("id")
+  
+  # ensure method is not allowed and that the added project still exists
+  response = httpx.delete(f"{url}projects")
+  assert response.status_code == 405
+  
+  
+  response = httpx.get(f"{url}projects")
 
+  assert response.status_code == 200
+  assert len(response.json().get("projects")) == 1
+  
+  response_project = response.json().get("projects")[0]
+
+  assert response_project.get("id") == id
+  assert response_project.get("title") == project.get("title")
+  assert response_project.get("completed") == ("true" if project.get("completed") else "false")
+  assert response_project.get("active") == ("true" if project.get("active") else "false")
+  assert response_project.get("description") == project.get("description")
+  
