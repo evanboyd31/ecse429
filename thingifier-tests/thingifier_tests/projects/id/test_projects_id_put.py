@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_id_put_project_with_string_boolean(before_each):
+def test_id_put_project_with_string_boolean_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "title": "new title",
@@ -21,7 +21,7 @@ def test_id_put_project_with_string_boolean(before_each):
   
   assert_project(expected=test_project, actual=response.json().get("projects")[0], check_id=True)
   
-def test_id_put_project_with_valid_boolean(before_each):
+def test_id_put_project_with_valid_boolean_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "title": "new title",
@@ -36,7 +36,7 @@ def test_id_put_project_with_valid_boolean(before_each):
   assert response.status_code == 200
   assert_project(expected=new_data, actual=response.json())
   
-def test_id_put_project_different_int_id(before_each):
+def test_id_put_project_different_int_id_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "id": 200,
@@ -52,7 +52,7 @@ def test_id_put_project_different_int_id(before_each):
   assert response.status_code == 200
   assert_project(expected=new_data, actual=response.json())
   
-def test_id_put_project_different_string_id(before_each):
+def test_id_put_project_different_string_id_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "id": "200"
@@ -68,7 +68,7 @@ def test_id_put_project_different_string_id(before_each):
   assert len(response.json().get("projects")) == 1
   assert_project(expected=test_project, actual=response.json().get("projects")[0], check_id=True)
   
-def test_id_put_project_different_boolean_id(before_each):
+def test_id_put_project_different_boolean_id_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "id": True

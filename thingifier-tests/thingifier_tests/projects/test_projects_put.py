@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_put_project_filter_by_title(before_each):
+def test_put_project_filter_by_title_json(before_each):
   test_project = test_projects[0]
   
   new_data = {

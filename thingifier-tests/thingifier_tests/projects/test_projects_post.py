@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_post_project_with_string_boolean(before_each):
+def test_post_project_with_string_boolean_json(before_each):
     invalid_project = {
       "title": "title",
       "completed": "false",
@@ -18,7 +18,7 @@ def test_post_project_with_string_boolean(before_each):
     # only one project should exist in the system: the project created in before_each
     assert len(response.json().get("projects")) == 1
     
-def test_post_project_valid_boolean(before_each):
+def test_post_project_valid_boolean_json(before_each):
   valid_project = {
       "title": "title",
       "completed": False,
@@ -34,7 +34,7 @@ def test_post_project_valid_boolean(before_each):
   # assert that the two projects are equal (except for their IDs)
   assert_project(expected=valid_project, actual=response_json, check_id=False)
   
-def test_post_blank_project(before_each):
+def test_post_blank_project_json(before_each):
   # blank project
   project = {}
   
@@ -43,7 +43,7 @@ def test_post_blank_project(before_each):
   assert response.status_code == 201
   assert_project(expected=project, actual=response.json(), check_id=False)
   
-def test_post_project_with_id_in_body(before_each):
+def test_post_project_with_id_in_body_json(before_each):
   project = {
       "id": 100,
       "title": "title",
@@ -61,7 +61,7 @@ def test_post_project_with_id_in_body(before_each):
   # only one project should exist in the system: the project created in before_each
   assert len(response.json().get("projects")) == 1
 
-def test_post_project_with_positive_integer_string(before_each):
+def test_post_project_with_positive_integer_string_json(before_each):
   project = {
       "title": int(1)
   }
@@ -77,7 +77,7 @@ def test_post_project_with_positive_integer_string(before_each):
   assert response_project.get("active") == ("true" if project.get("active", "") else "false")
   assert response_project.get("description") == project.get("description", "")
 
-def test_post_project_integer_boolean(before_each):
+def test_post_project_integer_boolean_json(before_each):
   project = {
       "completed": int(1)
   }
@@ -92,7 +92,7 @@ def test_post_project_integer_boolean(before_each):
   # only one project should exist in the system: the project created in before_each
   assert len(response.json().get("projects")) == 1
   
-def test_post_project_negative_integer_string(before_each):
+def test_post_project_negative_integer_string_json(before_each):
   project = {
     "description": int(-1)
   }
@@ -108,7 +108,7 @@ def test_post_project_negative_integer_string(before_each):
   assert response_project.get("active") == ("true" if project.get("active", "") else "false")
   assert response_project.get("description") == f"{project.get("description")}.0"
   
-def test_post_project_integer_id(before_each):
+def test_post_project_integer_id_json(before_each):
   project = {
     "id": 100
   }
@@ -123,7 +123,7 @@ def test_post_project_integer_id(before_each):
   # only one project should exist in the system: the project created in before_each
   assert len(response.json().get("projects")) == 1
   
-def test_post_project_with_title_query_param(before_each):
+def test_post_project_with_title_query_param_json(before_each):
   
   test_project_title = test_projects[0].get("title")
   project = {
@@ -146,7 +146,7 @@ def test_post_project_with_title_query_param(before_each):
   assert response.status_code == 200
   assert len(response.json().get("projects", [])) == 2
   
-def test_post_project_with_id_query_param(before_each):
+def test_post_project_with_id_query_param_json(before_each):
   
   test_project_id = test_projects[0].get("id")
   project = {

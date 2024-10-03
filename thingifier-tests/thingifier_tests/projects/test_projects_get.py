@@ -18,6 +18,19 @@ def test_get_projects_json(before_each):
       
       assert expected_project in list_of_projects
       
+def test_get_projects_xml(before_each):
+    """
+    Test to get projects from the /projects API endpoint
+    """
+    
+    response = httpx.get(projects_url, headers=XML_HEADERS)
+    assert response.status_code == 200
+    list_of_projects = xml_to_json(response.content).get("projects")
+    
+    for i, test_project in enumerate(test_projects):
+      # response booleans are represented as strings, so make a copy of the
+      assert_project(expected=test_project, actual=list_of_projects[i], check_id=False)
+      
 def test_get_project_filter_by_title_json(before_each):
   project = test_projects[0]
   
@@ -27,6 +40,19 @@ def test_get_project_filter_by_title_json(before_each):
   assert len(response.json().get("projects", [])) == 1
   
   response_project = response.json().get("projects")[0]
+  
+  assert_project(expected=project, actual=response_project, check_id=True)
+  
+def test_get_project_filter_by_title_xml(before_each):
+  project = test_projects[0]
+  
+  response = httpx.get(f"{projects_url}?title={project.get("title")}", headers=XML_HEADERS)
+  
+  assert response.status_code == 200
+  list_of_projects = xml_to_json(response.content).get("projects")
+  assert len(list_of_projects) == 1
+  
+  response_project = list_of_projects[0]
   
   assert_project(expected=project, actual=response_project, check_id=True)
   
@@ -41,6 +67,19 @@ def test_get_project_filter_by_description_json(before_each):
   response_project = response.json().get("projects")[0]
   
   assert_project(expected=project, actual=response_project, check_id=True)
+  
+def test_get_project_filter_by_description_xml(before_each):
+  project = test_projects[0]
+  
+  response = httpx.get(f"{projects_url}?description={project.get("description")}", headers=XML_HEADERS)
+  
+  assert response.status_code == 200
+  list_of_projects = xml_to_json(response.content).get("projects")
+  assert len(list_of_projects) == 1
+  
+  response_project = list_of_projects[0]
+  
+  assert_project(expected=project, actual=response_project, check_id=True)
 
 def test_get_project_filter_by_id_json(before_each):
   project = test_projects[0]
@@ -53,7 +92,19 @@ def test_get_project_filter_by_id_json(before_each):
   
   assert_project(expected=project, actual=response_project, check_id=True)
   
-def test_get_project_filter_by_multiple_params(before_each):
+def test_get_project_filter_by_id_xml(before_each):
+  project = test_projects[0]
+  response = httpx.get(f"{projects_url}?id={project.get("id")}", headers=XML_HEADERS)
+  
+  assert response.status_code == 200
+  list_of_projects = xml_to_json(response.content).get("projects")
+  assert len(list_of_projects) == 1
+  
+  response_project = list_of_projects[0]
+  
+  assert_project(expected=project, actual=response_project, check_id=True)
+  
+def test_get_project_filter_by_multiple_params_json(before_each):
   project = test_projects[0]
   
   response = httpx.get(f"{projects_url}?id={project.get("id")}&description={project.get("description")}")
@@ -62,5 +113,18 @@ def test_get_project_filter_by_multiple_params(before_each):
   assert len(response.json().get("projects", [])) == 1
   
   response_project = response.json().get("projects")[0]
+  
+  assert_project(expected=project, actual=response_project, check_id=True)
+  
+def test_get_project_filter_by_multiple_params_xml(before_each):
+  project = test_projects[0]
+  
+  response = httpx.get(f"{projects_url}?id={project.get("id")}&description={project.get("description")}", headers=XML_HEADERS)
+  
+  assert response.status_code == 200
+  list_of_projects = xml_to_json(response.content).get("projects")
+  assert len(list_of_projects) == 1
+  
+  response_project = list_of_projects[0]
   
   assert_project(expected=project, actual=response_project, check_id=True)

@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_id_post_project(before_each):
+def test_id_post_project_json(before_each):
     test_project = test_projects[0]
 
     id = test_project.get("id")
@@ -27,7 +27,7 @@ def test_id_post_project(before_each):
     assert response.status_code == 200
     assert len(response.json().get("projects", [])) == 1
     
-def test_id_post_project_with_new_id_string(before_each):
+def test_id_post_project_with_new_id_string_json(before_each):
   test_project = test_projects[0]
 
   id = str(int(test_project.get("id")) + 1)
@@ -42,7 +42,7 @@ def test_id_post_project_with_new_id_string(before_each):
   assert len(response.json().get("projects")) == 1
   assert response.json().get("projects")[0].get("id") == test_project.get("id")
   
-def test_id_post_project_with_new_int_id(before_each):
+def test_id_post_project_with_new_int_id_json(before_each):
   test_project = test_projects[0]
 
   id = int(test_project.get("id")) + 1
