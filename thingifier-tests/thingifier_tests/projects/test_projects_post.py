@@ -151,7 +151,6 @@ def test_post_project_with_positive_integer_string_xml(before_each):
     '''
   
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-  print(response.content)
   
   assert response.status_code == 201
   response_project = xml_to_json(response.content).get("project")
@@ -224,7 +223,6 @@ def test_post_project_with_negative_integer_string_xml(before_each):
     '''
   
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-  print(response.content)
   
   assert response.status_code == 201
   response_project = xml_to_json(response.content).get("project")
