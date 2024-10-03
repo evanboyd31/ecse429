@@ -1,6 +1,6 @@
 import httpx
 import pytest
-import thingifier_tests.test_common as common
+import thingifier_tests.conftest as common
 
 todos_url: str = "http://localhost:4567/todos"
 
@@ -40,7 +40,6 @@ def contain_the_same_todos(todos1, todos2) -> bool:
 
 @pytest.fixture(autouse=True)
 def before_each():
-    print("hi")
     common.remove_all()
     titles: list[str] = [
         "Watch Sabrina Carpenter Concert Clips",
