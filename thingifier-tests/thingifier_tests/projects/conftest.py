@@ -73,7 +73,7 @@ def xml_to_json(xml_content):
 
     # Check if 'projects' is in the parsed data
     if 'projects' in data_dict:
-        projects = data_dict['projects'].get('project', [])
+        projects = data_dict['projects'].get('project', []) if data_dict["projects"] is not None else []
         
         # Ensure projects is a list
         if not isinstance(projects, list):  # If there's only one project, convert to a list
