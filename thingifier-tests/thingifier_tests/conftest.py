@@ -67,8 +67,8 @@ def save_system_state():
             for k in obj:
                 if obj[k] == "false":
                     obj[k] = False
-            if obj[k] == "true":
-                obj[k] = True
+                if obj[k] == "true":
+                    obj[k] = True
 
     print("Saving state")
     system_state["todos"] = []
@@ -80,6 +80,7 @@ def save_system_state():
     categories = httpx.get(url_header + "categories").json()["categories"]
     string_to_bool(categories)
     projects = httpx.get(url_header + "projects").json()["projects"]
+    string_to_bool(projects)
 
     system_state["todos"] = todos
     system_state["categories"] = categories
