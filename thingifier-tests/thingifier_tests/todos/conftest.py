@@ -1,8 +1,22 @@
 import httpx
 import pytest
 import thingifier_tests.conftest as common
+import xmltodict
 
 todos_url: str = "http://localhost:4567/todos"
+
+
+def post_xml(url, data) -> httpx.Response:
+    return httpx.post(
+        url,
+        content=data,
+        headers={"Content-Type": "application/xml", "Accept": "application/xml"},
+    )
+
+
+def xml_to_dict(xml: str) -> dict:
+    return xmltodict.parse(xml)
+
 
 # Note that ids will change every time
 default_todos: dict = {
