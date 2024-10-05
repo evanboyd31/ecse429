@@ -18,4 +18,5 @@
 .venv
 /poetry.toml
 
+__pycache__/
 .testmondata
