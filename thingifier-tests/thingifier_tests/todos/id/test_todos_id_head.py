@@ -1,7 +1,7 @@
 from thingifier_tests.todos.conftest import *
 
 
-class TestTodosIdHead():
+class TestTodosIdHead:
     def test_head_todos_id_should_return_headers(self):
         todo = default_todos["todos"][0]
         res = httpx.head(todos_url + "/" + str(todo["id"]))
