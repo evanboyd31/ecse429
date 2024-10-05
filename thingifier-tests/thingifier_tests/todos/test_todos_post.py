@@ -20,6 +20,25 @@ class TestTodosPost:
         from_api = httpx.get(todos_url + "/" + res_json["id"]).json()
         assert from_api["todos"][0] == res_json
 
+    def test_post_todos_with_id_should_fail(self):
+        body = {
+            "id": 1,
+            "title": "Listen to Sabrina Carpenter's Latest Album",
+            "description": "Go listen to Sabrina Carpenter's newest album, 'Short n' Sweet.'",
+            "doneStatus": False,
+        }
+
+        res = httpx.post(todos_url, json=body)
+        res_json = res.json()
+        error_messages = res_json["errorMessages"]
+
+        assert res.status_code == 400
+        assert len(error_messages) == 1
+        assert (
+            error_messages[0]
+            == "Invalid Creation: Failed Validation: Not allowed to create with id"
+        )
+
     def test_post_todos_with_filter_should_create_a_todo(self):
         body = {
             "title": "Listen to Sabrina Carpenter's Latest Album",
