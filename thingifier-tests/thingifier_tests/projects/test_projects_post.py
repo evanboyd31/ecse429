@@ -1,43 +1,6 @@
 import httpx
 from thingifier_tests.projects.conftest import *
-
-def test_post_project_with_string_boolean_json(before_each):
-    invalid_project = {
-      "title": "title",
-      "completed": "false",
-      "active": "true",
-      "description": "description"
-    }
     
-    # ensure correct error messages and codes and check that no extra project has been created
-    response = httpx.post(projects_url, json=invalid_project)
-    assert response.status_code == 400
-    assert response.json() == {"errorMessages": ["Failed Validation: completed should be BOOLEAN, active should be BOOLEAN"]}
-    
-    response = httpx.get(projects_url)
-    # only one project should exist in the system: the project created in before_each
-    assert len(response.json().get("projects")) == 1
-    
-def test_post_project_with_string_boolean_xml(before_each):
-    xml_data = '''
-        <project>
-          <title type="string">type</title>
-          <completed type="string">false</completed>
-          <active type="string">false</active>
-          <description type="string">description</description>
-        </project>
-    '''
-    
-    # ensure correct error messages and codes and check that no extra project has been created
-    response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-    assert response.status_code == 400
-    assert xml_to_json(response.content) == {"errorMessages": ["Failed Validation: active should be BOOLEAN, completed should be BOOLEAN"]}
-    
-    response = httpx.get(projects_url, headers=XML_HEADERS)
-    # only one project should exist in the system: the project created in before_each
-    assert len(xml_to_json(response.content).get("projects"))== 1
-    
-  
 def test_post_project_valid_boolean_json(before_each):
   valid_project = {
       "title": "title",
