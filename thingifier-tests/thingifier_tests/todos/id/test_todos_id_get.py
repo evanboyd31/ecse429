@@ -7,5 +7,4 @@ class TestTodosIdGet:
         res = httpx.get(todos_url + "/" + expected["id"])
         actual = res.json()["todos"][0]
         assert res.status_code == 200
-        print(actual, expected)
         assert expected == actual

@@ -2,6 +2,7 @@ import httpx
 import pytest
 import thingifier_tests.conftest as common
 import xmltodict
+import copy
 
 todos_url: str = "http://localhost:4567/todos"
 XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
@@ -18,27 +19,46 @@ default_todos: dict = {
             "id": "???",
             "title": "Watch Sabrina Carpenter Concert Clips",
             "doneStatus": "false",
-            "description": "",
+            "description": "Watch them on TikTok",
         },
         {
             "id": "???",
             "title": "Buy Sabrina Carpenter Merch",
             "doneStatus": "false",
-            "description": "",
+            "description": "Get shirt H",
         },
         {
             "id": "???",
             "title": "Buy Sabrina Carpenter Concert Tickets",
             "doneStatus": "false",
-            "description": "",
+            "description": "They are sold out sadly",
         },
     ]
 }
 
 
+def get_default_todos_for_xml() -> dict:
+    out = {"todo": []}
+    for todo in default_todos["todos"]:
+        copied = copy.deepcopy(todo)
+        if copied["description"] == "":
+            copied["description"] = None
+        out["todo"].append(copied)
+    return out
+
+
 def contain_the_same_todos(todos1, todos2) -> bool:
-    todos1 = todos1["todos"]
-    todos2 = todos2["todos"]
+    if "todos" in todos1:
+        todos1 = todos1["todos"]
+    elif "todo" in todos1:
+        todos1 = todos1["todo"]
+
+    if "todos" in todos2:
+        todos2 = todos2["todos"]
+    elif "todo" in todos2:
+        todos2 = todos2["todo"]
+    print(todos1)
+    print(todos2)
 
     todos1 = sorted(todos1, key=lambda todo: todo["id"])
     todos2 = sorted(todos2, key=lambda todo: todo["id"])
@@ -54,18 +74,9 @@ def todos_has_not_changed() -> bool:
 @pytest.fixture(autouse=True)
 def before_each():
     common.remove_all()
-    titles: list[str] = [
-        "Watch Sabrina Carpenter Concert Clips",
-        "Buy Sabrina Carpenter Merch",
-        "Buy Sabrina Carpenter Concert Tickets",
-    ]
-
-    def add_to_todos(title: str):
-        res = httpx.post(todos_url, json={"title": title})
-        todo = list(
-            filter(lambda todo: todo["title"] == title, default_todos["todos"])
-        )[0]
+    for todo in default_todos["todos"]:
+        todo.pop("id")
+        todo["doneStatus"] = False
+        res = httpx.post(todos_url, json=todo)
+        todo["doneStatus"] = "false"
         todo["id"] = res.json()["id"]
-
-    for title in titles:
-        add_to_todos(title)
