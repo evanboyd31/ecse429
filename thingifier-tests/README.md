@@ -4,8 +4,8 @@
 
 1. Make sure the Thingifier API is running, otherwise the tests will fail 
 2. Go into the `thingifier-tests` directory
-3. Run `poetrt install` to install all dependencies
-4. Run `poetry run pytest` to run the tests
+3. Run `poetry install` to install all dependencies
+4. Run `poetry run pytest` to run the tests. Run `poetry run pytest --random-order` to run the tests in a random order
 
 ## How to write a test
 1. Create a file called `test_[whatever].py` 
