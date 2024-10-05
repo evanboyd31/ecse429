@@ -4,14 +4,7 @@ import thingifier_tests.conftest as common
 import xmltodict
 
 todos_url: str = "http://localhost:4567/todos"
-
-
-def post_xml(url, data) -> httpx.Response:
-    return httpx.post(
-        url,
-        content=data,
-        headers={"Content-Type": "application/xml", "Accept": "application/xml"},
-    )
+XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
 
 
 def xml_to_dict(xml: str) -> dict:
@@ -50,6 +43,12 @@ def contain_the_same_todos(todos1, todos2) -> bool:
     todos1 = sorted(todos1, key=lambda todo: todo["id"])
     todos2 = sorted(todos2, key=lambda todo: todo["id"])
     return todos1 == todos2
+
+
+def todos_has_not_changed() -> bool:
+    res = httpx.get(todos_url)
+    actual = res.json()
+    return res.status_code == 200 and contain_the_same_todos(actual, default_todos)
 
 
 @pytest.fixture(autouse=True)

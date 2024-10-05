@@ -34,7 +34,7 @@ class TestTodosPost:
                   <doneStatus>true</doneStatus>
                 </todo>"""
 
-        res: httpx.Response = post_xml(todos_url, body)
+        res: httpx.Response = httpx.post(todos_url, content=body, headers=XML_HEADERS)
         res_dict: dict = xml_to_dict(res.content)["todo"]
         print(res_dict)
 
