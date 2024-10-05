@@ -13,14 +13,14 @@ class TestTodosDelete:
         assert response.status_code == 405
         assert todos_has_not_changed()
 
-    def test_delete_todos_with_filter_should_not_be_allowed(before_each):
+    def test_delete_todos_with_filter_should_not_be_allowed(self):
         response = httpx.delete(
             f"{todos_url}?title={default_todos["todos"][0].get("title")}"
         )
         assert response.status_code == 405
         assert todos_has_not_changed()
 
-    def test_delete_project_using_filter_xml(before_each):
+    def test_delete_project_using_filter_xml(self):
         response = httpx.delete(
             f"{todos_url}?title={default_todos["todos"][0].get("title")}",
             headers=XML_HEADERS,
