@@ -1,6 +1,6 @@
 import httpx
 from thingifier_tests.conftest import *
-from thingifier_tests.categories.test_categories_common import *
+from thingifier_tests.categories.conftest import *
 import os
 
 
