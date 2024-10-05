@@ -81,3 +81,7 @@ def test_put_id_categories_modifyid_should_return_categorymodified(
     modify_category.update({"description": test_categories[0]["description"]})
     assert res.status_code == 200
     assert res.json() == modify_category
+
+# Add a test to check that we can't create without specifying the title
+
+# Add a test to check that we can't create without specifying the title empty

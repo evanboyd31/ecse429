@@ -50,3 +50,5 @@ def test_post_categories_titleexistant_should_return_categorycreated(setup_each)
     del res.json()["id"]
     assert res.status_code == 201
     assert res.json() == actual
+
+# Add a test to check that we can't create without specifying the title
