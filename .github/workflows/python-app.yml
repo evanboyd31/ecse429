@@ -18,6 +18,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/setup-java@v4
+    - name: Set up Java 21
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '21'
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
       uses: actions/setup-python@v3
@@ -30,5 +35,8 @@ jobs:
         poetry install
     - name: Test with pytest
       run: |
-        cd thingifier-tests
+        cd Application_Being_Tested
+        java -jar runTodoManagerRestAPI-1.5.5.jar & 
+        cd ../thingifier-tests
+        sleep 5
         poetry run pytest -s -v --random-order
