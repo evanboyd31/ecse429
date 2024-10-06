@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.conftest import *
 from thingifier_tests.categories.conftest import *
-import os
+import xmltodict
 
 
 
@@ -20,7 +20,9 @@ def test_get_categories_id_nonexsistent_should_return_error(setup_each):
     assert res.status_code == 404
     assert contain_same_categories(res.json(), errorMessage)
 
-def test_get_categories_id_query_inconsistent_should_return_badrequest(setup_each):
-    print("Running test_get_categories_id_query_inconsistent_should_return_badrequest")
-    res = httpx.get(categories_url + "/" + test_categories[0]["id"] + "?id=99999")
-    assert res.status_code == 400
+def test_get_categories_id_xml(setup_each):
+    print("test_get_categories_xml")
+    res = httpx.get(categories_url + '/' + test_categories[0]['id'], headers=XML_HEADERS)
+    resJson = xmltodict.parse(res.content)
+    assert res.status_code == 200
+    assert resJson['categories']['category'] == test_categories[0]
