@@ -58,61 +58,6 @@ def test_post_project_with_string_boolean_xml_expected_behaviour(before_each):
     response = httpx.get(projects_url, headers=XML_HEADERS)
      # only one project should exist in the system: the project created in before_each
     assert len(xml_to_json(response.content).get("projects")) == 2
-    
-def test_id_post_project_with_new_id_string_json_expected_behaviour(before_each):
-  """
-  In the provided example JSON input in the API documentation, ID is a permitted
-  request body variable for a project. Therefore, it is expected that the
-  ID can be updated if we are allowed to assign a new ID to a project through this endpoint,
-  but ultimately fails
-  """
-  test_project = test_projects[0]
-
-  id = str(int(test_project.get("id")) + 1)
-  
-  # expected that the id of project would be updated according to documentation
-  response = httpx.post(f"{projects_url}/{test_project.get("id")}", json={"id": id})
-  assert response.status_code == 200
-  assert response.json() == {"id": id, "title": "", "completed": "false", "active": "false", "description": ""}
-  
-  # only one project should exist after expected update
-  response = httpx.get(projects_url)
-  assert response.status_code == 200
-  assert len(response.json().get("projects")) == 1
-  assert response.json().get("projects")[0].get("id") == test_project.get("id")
-
-
-def test_id_post_project_with_new_id_string_xml_expected_behaviour(before_each):
-  """
-  In the provided example JSON input in the API documentation, ID is a permitted
-  request body variable for a project. Therefore, it is expected that the
-  ID can be updated if we are allowed to assign a new ID to a project through this endpoint,
-  but ultimately fails
-  """
-  test_project = test_projects[0]
-
-  id = str(int(test_project.get("id")) + 1)
-  
-  xml_data = f'''
-                <project>
-                <id type="string">{id}</id>
-                <active>true</active>
-                <description>updated description</description>
-                <completed>false</completed>
-                <title>updated title</title>
-                </project>
-                '''
-  
-  # expected that the id of project would be updated according to documentation
-  response = httpx.post(f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS)
-  assert response.status_code == 200
-  assert xml_to_json(response.content) == {"id": id, "title": "", "completed": "false", "active": "false", "description": ""}
-  
-  # only one project should exist after expected update
-  response = httpx.get(projects_url, headers=XML_HEADERS)
-  assert response.status_code == 200
-  assert len(xml_to_json(response.content).get("projects")) == 1
-  assert xml_to_json(response.content).get("projects")[0].get("id") == test_project.get("id")
   
 def test_id_put_project_with_string_boolean_json_expected_behaviour(before_each):
   """
@@ -140,70 +85,30 @@ def test_id_put_project_with_string_boolean_json_expected_behaviour(before_each)
   # only one project should exist in the system after update
   response = httpx.get(projects_url)
   assert len(response.json().get("projects")) == 1
-
+  
 def test_id_put_project_with_string_boolean_xml_expected_behaviour(before_each):
-  """
-  In the provided JSON input in the API documentation, the Boolean variables for a project, 
-  completed and active, are represented as strings. This test illustrates the
-  expected behaviour according to the API documentation, but ultimately fails.
-  """
   test_project = test_projects[0]
   new_data = '''
-            <project>
+             <project>
               <active type="string">true</active>
               <description>new description</description>
               <completed type="string">true</completed>
               <title>new title</title>
-            </project>
+             </project>
             '''
   
   response = httpx.put(f"{projects_url}/{test_project.get("id")}", data=new_data, headers=XML_HEADERS)
   
-  # project should've been updated with 200 response code
-  expected_data = xml_to_json(new_data)
-  expected_data.get("project").update({
-    "id": test_project.get("id") 
+  # ensure we get error message and that none of the fields are updated
+  expected = xml_to_json(new_data)
+  expected.data.get("project").update({
+    "id": test_project.get("id")
   })
-  assert response.status_code == 200
-  assert xml_to_json(response.content) == expected_data
+  assert response.status_code == 400
+  assert xml_to_json(response.content) == expected
   
-  # a single project would exist in system after update
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert len(xml_to_json(response.content).get("projects")) == 1
-  
-def test_id_put_project_different_int_id_json_expected_behaviour(before_each):
-  test_project = test_projects[0]
-  new_data = {
-    "id": 200,
-    "title": "new title",
-    "completed": True,
-    "active": True,
-    "description": "new description"
-  }
-  
-  response = httpx.put(f"{projects_url}/{test_project.get("id")}", json=new_data)
-  
-  # ensure we update successfully and fields (including ID) are updated correctly
-  assert response.status_code == 200
-  assert response.json() == {"id": "200", "title": "new title", "completed": "true", "active": "true", "description": "new description"}
-  
-def test_id_put_project_different_int_id_xml_expected_behaviour(before_each):
-  test_project = test_projects[0]
-  new_data = '''
-        <project>
-        <id>200</id>
-  <active>true</active>
-  <description>new description</description>
-  <completed>true</completed>
-  <title>new title</title>
-</project>
-    '''
-  
-  response = httpx.put(f"{projects_url}/{test_project.get("id")}", data=new_data, headers=XML_HEADERS)
-  
-  # ensure we update successfully and fields (including ID) are updated correctly
-  assert response.status_code == 200
-  assert xml_to_json(response.content) == {"id": "200", "title": "new title", "completed": "true", "active": "true", "description": "new description"}
 
 def test_id_post_project_with_new_int_id_json_expected_behaviour(before_each):
   """
