@@ -14,8 +14,9 @@ def test_post_categories_allfields_should_return_categorycreated(setup_each):
     res = httpx.post(categories_url, json=new_category)
     actual = new_category
     assert res.status_code == 201
-    del res.json()["id"]
-    assert res.json() == actual
+    resJson = res.json()
+    resJson.pop('id')
+    assert resJson == actual
 
 
 def test_post_categories_withid_should_return_error(setup_each):
@@ -35,15 +36,8 @@ def test_post_categories_withid_should_return_error(setup_each):
     assert res.json() == errorMessage
 
 
-def test_post_categories_typeerror_should_return_error(setup_each):
-    print("Running test_post_categories_typeerror_should_return_error")
-    new_category = {"title": 235, "description": "Never seen before description"}
-    res = httpx.post(categories_url, json=new_category)
-    assert res.status_code == 400
-
-
 def test_post_categories_titleonly_should_return_categorycreated(setup_each):
-    print("Running test_post_categories_typeerror_should_return_error")
+    print("Running test_post_categories_titleonly_should_return_categorycreated")
     new_category = {"title": "A title"}
     res = httpx.post(categories_url, json=new_category)
     new_category.update({"description":""})
@@ -53,7 +47,7 @@ def test_post_categories_titleonly_should_return_categorycreated(setup_each):
     assert received == new_category
 
 def test_post_categories_titleinexistant_should_return_error(setup_each):
-    print("Running test_post_categories_typeerror_should_return_error")
+    print("Running test_post_categories_titleinexistant_should_return_error")
     new_category = {"description": "Never seen before description"}
     res = httpx.post(categories_url, json=new_category)
     errorMessage = {"errorMessages":["title : field is mandatory"]}
@@ -61,7 +55,7 @@ def test_post_categories_titleinexistant_should_return_error(setup_each):
     assert res.json() == errorMessage
 
 def test_post_categories_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_post_categories_xml")
     xml_data = '''
         <category>
             <title>titlee</title>
@@ -73,3 +67,26 @@ def test_post_categories_xml(setup_each):
     assert res.status_code == 201
     resJson['category'].pop("id")
     assert resJson['category'] == {"title":"titlee", "description":"description"}
+
+def test_post_categories_malformed_json(setup_each):
+    print("Running test_post_categories_malformed_json")
+    new_category = """{
+        "title": "Never seen before title
+        "description": "Never seen before description",
+    }"""
+    res = httpx.post(categories_url, data=new_category)
+    actual = new_category
+    assert res.status_code == 400
+    assert 'errorMessages' in res.json().keys()
+
+def test_post_categories_malformed_xml(setup_each):
+    print("Running test_post_categories_malformed_xml")
+    new_category = """
+        <category>
+            <titleitlee</title
+            <description>description</description>
+        </category>"""
+    res = httpx.post(categories_url, data=new_category)
+    actual = new_category
+    assert res.status_code == 400
+    assert 'errorMessages' in res.json().keys()

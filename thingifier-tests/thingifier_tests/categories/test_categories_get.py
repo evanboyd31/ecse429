@@ -54,9 +54,8 @@ def test_get_categories_extendedendpoint_should_return_notfound(setup_each):
     assert res.status_code == 404
 
 def test_get_categories_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_get_categories_xml")
     res = httpx.get(categories_url, headers=XML_HEADERS)
     resJson = xmltodict.parse(res.content)
     assert res.status_code == 200
     assert contain_same_categories(resJson['categories']['category'] , test_categories)
-    

@@ -6,7 +6,7 @@ import xmltodict
 
 # JSON BODY AND RESPONSE
 def test_delete_categories_should_return_200(setup_each):
-    print("Running test_post_categories_allfields_should_return_categorycreated")
+    print("Running test_delete_categories_should_return_200")
     res = httpx.delete(categories_url + "/" + test_categories[0]["id"])
     assert res.status_code == 200
     resGet = httpx.get(categories_url + "/" + test_categories[0]["id"])
@@ -14,7 +14,7 @@ def test_delete_categories_should_return_200(setup_each):
 
 
 def test_delete_categories_nonexistent_should_return_404(setup_each):
-    print("Running test_post_categories_allfields_should_return_categorycreated")
+    print("Running test_delete_categories_nonexistent_should_return_404")
     res = httpx.delete(categories_url + "/99999")
     errorMessage = {
         "errorMessages": ["Could not find any instances with categories/99999"]
@@ -23,7 +23,7 @@ def test_delete_categories_nonexistent_should_return_404(setup_each):
     assert res.json() == errorMessage
 
 def test_delete_categories_id_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_delete_categories_id_xml")
     res = httpx.delete(categories_url + '/' + test_categories[0]["id"], headers=XML_HEADERS)
     assert res.status_code == 200
     resGet = httpx.get(categories_url + "/" + test_categories[0]["id"])

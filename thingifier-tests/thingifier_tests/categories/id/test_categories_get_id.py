@@ -14,14 +14,14 @@ def test_get_categories_id_should_return_corresponding_category(setup_each):
     assert contain_same_categories(res.json()['categories'], actual)
 
 def test_get_categories_id_nonexsistent_should_return_error(setup_each):
-    print("Running test_get_categories_id_nonexsistent_should_return_corresponding_categories")
+    print("Running test_get_categories_id_nonexsistent_should_return_error")
     res = httpx.get(categories_url + "/99999")
     errorMessage = {"errorMessages":["Could not find an instance with categories/10"]}
     assert res.status_code == 404
     assert contain_same_categories(res.json(), errorMessage)
 
 def test_get_categories_id_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_get_categories_id_xml")
     res = httpx.get(categories_url + '/' + test_categories[0]['id'], headers=XML_HEADERS)
     resJson = xmltodict.parse(res.content)
     assert res.status_code == 200

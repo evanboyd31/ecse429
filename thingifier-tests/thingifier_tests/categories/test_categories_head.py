@@ -10,6 +10,6 @@ def test_head_categories_should_return_200(setup_each):
     assert res.status_code == 200
 
 def test_head_categories_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_head_categories_xml")
     res = httpx.head(categories_url, headers=XML_HEADERS)
     assert res.status_code == 200

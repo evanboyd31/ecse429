@@ -29,7 +29,7 @@ def test_post_id_categories_nonexistent_should_return_notfound(setup_each):
     assert res.json() == errorMessage
 
 def test_post_categories_id_titleempty_should_return_error(setup_each):
-    print("Running test_post_categories_typeerror_should_return_error")
+    print("Running test_post_categories_id_titleempty_should_return_error")
     new_category = {"title": "", "description": "Never seen before description"}
     res = httpx.post(categories_url + '/' + test_categories[0]['id'], json=new_category)
     errorMessage = {"errorMessages":["Failed Validation: title : can not be empty"]}
@@ -37,7 +37,7 @@ def test_post_categories_id_titleempty_should_return_error(setup_each):
     assert res.json() == errorMessage
 
 def test_post_categories_id_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_post_categories_id_xml")
     xml_data = '''
         <category>
             <title>titlee</title>

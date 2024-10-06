@@ -16,6 +16,6 @@ def test_head_id_categories_nonexistent_should_return_404(setup_each):
     assert res.status_code == 404
 
 def test_head_categories_id_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_head_categories_id_xml")
     res = httpx.head(categories_url + '/' + test_categories[0]['id'], headers=XML_HEADERS)
     assert res.status_code == 200

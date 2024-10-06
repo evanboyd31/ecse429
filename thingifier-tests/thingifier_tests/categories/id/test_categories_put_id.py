@@ -31,7 +31,7 @@ def test_put_id_categories_nonexistent_should_return_notfound(setup_each):
     assert res.json() == errorMessage
 
 def test_put_categories_id_titleinexistant_should_return_error(setup_each):
-    print("Running test_put_categories_typeerror_should_return_error")
+    print("Running test_put_categories_id_titleinexistant_should_return_error")
     new_category = {"description": "Never seen before description"}
     res = httpx.put(categories_url + '/' + test_categories[0]['id'], json=new_category)
     errorMessage = {"errorMessages":["title : field is mandatory"]}
@@ -39,7 +39,7 @@ def test_put_categories_id_titleinexistant_should_return_error(setup_each):
     assert res.json() == errorMessage
 
 def test_put_categories_id_titleempty_should_return_error(setup_each):
-    print("Running test_put_categories_typeerror_should_return_error")
+    print("Running test_put_categories_id_titleempty_should_return_error")
     new_category = {"title": "", "description": "Never seen before description"}
     res = httpx.put(categories_url + '/' + test_categories[0]['id'], json=new_category)
     errorMessage = {"errorMessages":["Failed Validation: title : can not be empty"]}
@@ -47,7 +47,7 @@ def test_put_categories_id_titleempty_should_return_error(setup_each):
     assert res.json() == errorMessage
 
 def test_put_id_categories_titlefield_actually_return_categorymodified(setup_each):
-    print("Running test_put_id_categories_titlefield_should_return_categorymodified")
+    print("Running test_put_id_categories_titlefield_actually_return_categorymodified")
     modify_category = {"title": "Never seen before title"}
     modify_category.update({"description": test_categories[0]["description"]})
     res = httpx.put(
@@ -63,7 +63,7 @@ def test_put_id_categories_titlefield_actually_return_categorymodified(setup_eac
     assert res.json() == modify_category
 
 def test_put_categories_id_xml(setup_each):
-    print("test_get_categories_xml")
+    print("Running test_put_categories_id_xml")
     xml_data = '''
         <category>
             <title>titlee</title>
