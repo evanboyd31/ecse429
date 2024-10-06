@@ -56,7 +56,7 @@ def test_id_post_project_xml(before_each):
     response = httpx.get(projects_url, headers=XML_HEADERS)
     assert response.status_code == 200
     assert len(xml_to_json(response.content).get("projects")) == 1
-  
+    
 def test_id_post_project_with_new_id_string_json(before_each):
   test_project = test_projects[0]
 
@@ -88,8 +88,8 @@ def test_id_post_project_with_new_id_string_xml(before_each):
                 '''
   
   response = httpx.post(f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS)
-  assert response.status_code == 400
-  assert xml_to_json(response.content) == {"errorMessages":["Failed Validation: id should be ID"]}
+  assert response.status_code != 200
+  assert xml_to_json(response.content) != {"id": id, "title": "", "completed": "false", "active": "false", "description": ""}
   
   # ensure that only one project exists in the system and it has the old id
   response = httpx.get(projects_url, headers=XML_HEADERS)

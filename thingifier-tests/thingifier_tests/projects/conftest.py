@@ -61,24 +61,16 @@ def xml_to_json(xml_content):
     if not xml_content:
         return {}
 
-    # Convert XML to an OrderedDict
     data_dict = xmltodict.parse(xml_content)
 
-    # Check for error indicators in the parsed data
     if "errorMessages" in data_dict:
         errors = data_dict["errorMessages"].get("errorMessage", [])
 
-        # Ensure projects is a list
-        if not isinstance(
-            errors, list
-        ):  # If there's only one project, convert to a list
+        if not isinstance(errors, list):
             errors = [errors]
-        return {"errorMessages": errors}  # Handle the error case
+        return {"errorMessages": errors}
 
-    # Initialize projects as an empty list
     projects = []
-
-    # Check if 'projects' is in the parsed data
     if "projects" in data_dict:
         projects = (
             data_dict["projects"].get("project", [])
@@ -86,10 +78,7 @@ def xml_to_json(xml_content):
             else []
         )
 
-        # Ensure projects is a list
-        if not isinstance(
-            projects, list
-        ):  # If there's only one project, convert to a list
+        if not isinstance(projects, list):
             projects = [projects]
 
         return {"projects": projects}

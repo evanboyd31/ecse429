@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
-
-def test_post_project_with_string_boolean_json(before_each):
+    
+def test_post_project_with_string_boolean_json_(before_each):
     invalid_project = {
       "title": "title",
       "completed": "false",
@@ -35,9 +35,9 @@ def test_post_project_with_string_boolean_xml(before_each):
     
     response = httpx.get(projects_url, headers=XML_HEADERS)
     # only one project should exist in the system: the project created in before_each
-    assert len(xml_to_json(response.content).get("projects"))== 1
+    assert len(xml_to_json(response.content).get("projects")) == 1
     
-  
+
 def test_post_project_valid_boolean_json(before_each):
   valid_project = {
       "title": "title",

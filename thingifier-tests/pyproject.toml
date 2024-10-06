@@ -10,10 +10,11 @@ python = "^3.12"
 pytest = "^8.3"
 httpx = "^0.27"
 xmltodict = "^0.13.0"
+pytest-watch = "^4.2"
+pytest-testmon = "^2.1"
+black = "^24.8"
+pytest-random-order = "^1.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.pytest.ini_options]
-testpaths = ["thingifier-tests"]

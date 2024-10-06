@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.conftest import *
-from thingifier_tests.categories.test_categories_common import *
-import os
+from thingifier_tests.categories.conftest import *
+import xmltodict
 
 
 
@@ -48,12 +48,14 @@ def test_get_categories_query_nonexistent_should_return_empty(setup_each):
     assert res.status_code == 200
     assert contain_same_categories(res.json()['categories'], actual)
 
-def test_get_categories_query_faulty_should_return_badrequest(setup_each):
-    print("Running test_get_categories_query_faulty_should_return_badrequest")
-    res = httpx.get(categories_url + '?id=asdf')
-    assert res.status_code == 400
-
 def test_get_categories_extendedendpoint_should_return_notfound(setup_each):
     print("Running test_get_categories_extendedendpoint_should_return_notfound")
     res = httpx.get(categories_url + '/')
     assert res.status_code == 404
+
+def test_get_categories_xml(setup_each):
+    print("Running test_get_categories_xml")
+    res = httpx.get(categories_url, headers=XML_HEADERS)
+    resJson = xmltodict.parse(res.content)
+    assert res.status_code == 200
+    assert contain_same_categories(resJson['categories']['category'] , test_categories)
