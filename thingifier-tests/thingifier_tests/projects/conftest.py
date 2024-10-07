@@ -20,6 +20,9 @@ test_projects = [
 # Runs before each test
 @pytest.fixture()
 def before_each():
+    if common.make_sure_system_ready() != True:
+        print("The system is not ready to be tested.")
+        assert False
     common.remove_all()
     for project in test_projects:
         project.pop("id", None)
