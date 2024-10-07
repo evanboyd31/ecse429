@@ -73,6 +73,9 @@ def todos_has_not_changed() -> bool:
 
 @pytest.fixture(autouse=True)
 def before_each():
+    if common.make_sure_system_ready() != True:
+        print("The system is not ready to be tested.")
+        assert False
     common.remove_all()
     for todo in default_todos["todos"]:
         todo.pop("id")
