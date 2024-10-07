@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_post_project_with_string_boolean_json_expected_behaviour(before_each):
+def test_post_project_with_string_boolean_fails_to_create_project_json(before_each):
   """
   In the provided JSON input in the API documentation, the Boolean variables for a project, 
   completed and active, are represented as strings. This test illustrates the
@@ -29,7 +29,7 @@ def test_post_project_with_string_boolean_json_expected_behaviour(before_each):
   # one project should've been added, so 2 projects would exist in the system
   assert len(response.json().get("projects")) == 2
     
-def test_post_project_with_string_boolean_xml_expected_behaviour(before_each):
+def test_post_project_with_string_boolean_fails_to_create_project_xml(before_each):
     """
     In the provided JSON input in the API documentation, the Boolean variables for a project, 
     completed and active, are represented as strings. This test illustrates the
@@ -59,7 +59,7 @@ def test_post_project_with_string_boolean_xml_expected_behaviour(before_each):
      # only one project should exist in the system: the project created in before_each
     assert len(xml_to_json(response.content).get("projects")) == 2
     
-def test_id_post_project_with_new_int_id_json_expected_behaviour(before_each):
+def test_id_post_project_with_new_id_fails_to_update_project_id_json(before_each):
   """
   In the provided example JSON input in the API documentation, ID is a permitted
   request body variable for a project. Therefore, it is expected that the
@@ -90,7 +90,7 @@ def test_id_post_project_with_new_int_id_json_expected_behaviour(before_each):
   assert len(response.json().get("projects")) == 1
   assert response.json().get("projects")[0].get("id") == f"{id}"
 
-def test_id_post_project_with_new_int_id_xml_expected_behaviour(before_each):
+def test_id_post_project_with_new_id_fails_to_update_project_id_xml(before_each):
   """
   In the provided example JSON input in the API documentation, ID is a permitted
   request body variable for a project. Therefore, it is expected that the
@@ -122,7 +122,7 @@ def test_id_post_project_with_new_int_id_xml_expected_behaviour(before_each):
   assert len(xml_to_json(response.content).get("projects")) == 1
   assert xml_to_json(response.content).get("projects")[0].get("id") == f"{id}"
   
-def test_id_put_project_with_string_boolean_json_expected_behaviour(before_each):
+def test_id_put_project_with_string_boolean_fails_to_update_project_json(before_each):
   """
   In the provided JSON input in the API documentation, the Boolean variables for a project, 
   completed and active, are represented as strings. This test illustrates the
@@ -149,7 +149,7 @@ def test_id_put_project_with_string_boolean_json_expected_behaviour(before_each)
   response = httpx.get(projects_url)
   assert len(response.json().get("projects")) == 1
   
-def test_id_put_project_with_string_boolean_xml_expected_behaviour(before_each):
+def test_id_put_project_with_string_boolean_fails_to_update_project_xml(before_each):
   test_project = test_projects[0]
   new_data = '''
              <project>
@@ -173,7 +173,7 @@ def test_id_put_project_with_string_boolean_xml_expected_behaviour(before_each):
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert len(xml_to_json(response.content).get("projects")) == 1
   
-def test_id_put_project_with_new_int_id_json_expected_behaviour(before_each):
+def test_id_put_project_with_new_id_fails_to_update_project_id_json(before_each):
   """
   In the provided example JSON input in the API documentation, ID is a permitted
   request body variable for a project. Therefore, it is expected that the
@@ -204,7 +204,7 @@ def test_id_put_project_with_new_int_id_json_expected_behaviour(before_each):
   assert len(response.json().get("projects")) == 1
   assert response.json().get("projects")[0].get("id") == f"{id}"
 
-def test_id_put_project_with_new_int_id_xml_expected_behaviour(before_each):
+def test_id_put_project_with_new_id_fails_to_update_project_id_xml(before_each):
   """
   In the provided example JSON input in the API documentation, ID is a permitted
   request body variable for a project. Therefore, it is expected that the
