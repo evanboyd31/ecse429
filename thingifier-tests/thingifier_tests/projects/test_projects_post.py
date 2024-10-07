@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
     
-def test_post_project_with_string_boolean_json_(before_each):
+def test_post_project_with_string_boolean_should_not_create_project_json(before_each):
     invalid_project = {
       "title": "title",
       "completed": "false",
@@ -18,7 +18,7 @@ def test_post_project_with_string_boolean_json_(before_each):
     # only one project should exist in the system: the project created in before_each
     assert len(response.json().get("projects")) == 1
     
-def test_post_project_with_string_boolean_xml(before_each):
+def test_post_project_with_string_boolean_should_not_create_project_xml(before_each):
     xml_data = '''
         <project>
           <title type="string">type</title>
@@ -38,7 +38,7 @@ def test_post_project_with_string_boolean_xml(before_each):
     assert len(xml_to_json(response.content).get("projects")) == 1
     
 
-def test_post_project_valid_boolean_json(before_each):
+def test_post_project_valid_boolean_should_create_project_json(before_each):
   valid_project = {
       "title": "title",
       "completed": False,
@@ -54,7 +54,7 @@ def test_post_project_valid_boolean_json(before_each):
   # assert that the two projects are equal (except for their IDs)
   assert_project(expected=valid_project, actual=response_json, check_id=False)
   
-def test_post_project_valid_boolean_xml(before_each):
+def test_post_project_valid_boolean_should_create_project_xml(before_each):
   xml_data = '''
         <project>
   <active>false</active>
@@ -70,7 +70,7 @@ def test_post_project_valid_boolean_xml(before_each):
   # assert that the two projects are equal (except for their IDs)
   assert_project(expected=xml_to_json(xml_data).get("project"), actual=xml_to_json(response.content).get("project"), check_id=False)
   
-def test_post_blank_project_json(before_each):
+def test_post_blank_project_should_create_project_json(before_each):
   # blank project
   project = {}
   
@@ -79,14 +79,14 @@ def test_post_blank_project_json(before_each):
   assert response.status_code == 201
   assert_project(expected=project, actual=response.json(), check_id=False)
   
-def test_post_blank_project_xml(before_each):
+def test_post_blank_project_should_create_project_xml(before_each):
   xml_data = ""
   
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
   assert response.status_code == 201
   assert_project(expected=xml_to_json(xml_data), actual=xml_to_json(response.content).get("project"))
   
-def test_post_project_with_id_in_body_json(before_each):
+def test_post_project_with_id_in_body_should_not_create_project_json(before_each):
   project = {
       "id": 100,
       "title": "title",
@@ -104,7 +104,7 @@ def test_post_project_with_id_in_body_json(before_each):
   # only one project should exist in the system: the project created in before_each
   assert len(response.json().get("projects")) == 1
   
-def test_post_project_with_id_in_body_xml(before_each):
+def test_post_project_with_id_in_body_should_not_create_project_xml(before_each):
   xml_data = '''
         <project>
         <id>100</id>
@@ -124,7 +124,7 @@ def test_post_project_with_id_in_body_xml(before_each):
   # only one project should exist in the system: the project created in before_each
   assert len(xml_to_json(response.content).get("projects")) == 1
 
-def test_post_project_with_positive_integer_string_json(before_each):
+def test_post_project_with_positive_integer_string_should_create_project_json(before_each):
   project = {
       "title": int(1)
   }
@@ -140,7 +140,7 @@ def test_post_project_with_positive_integer_string_json(before_each):
   assert response_project.get("active") == ("true" if project.get("active", "") else "false")
   assert response_project.get("description") == project.get("description", "")
   
-def test_post_project_with_positive_integer_string_xml(before_each):
+def test_post_project_with_positive_integer_string_should_create_project_xml(before_each):
   xml_data = '''
         <project>
   <active>false</active>
@@ -160,7 +160,7 @@ def test_post_project_with_positive_integer_string_xml(before_each):
   assert response_project.get("active") == "false"
   assert response_project.get("description") == "description"
   
-def test_post_project_integer_boolean_json(before_each):
+def test_post_project_integer_boolean_should_not_create_project_json(before_each):
   project = {
       "completed": int(1)
   }
@@ -175,7 +175,7 @@ def test_post_project_integer_boolean_json(before_each):
   # only one project should exist in the system: the project created in before_each
   assert len(response.json().get("projects")) == 1
   
-def test_post_project_integer_boolean_xml(before_each):
+def test_post_project_integer_boolean_should_not_create_project_xml(before_each):
   xml_data = '''
         <project>
   <active>false</active>
@@ -196,7 +196,7 @@ def test_post_project_integer_boolean_xml(before_each):
   assert len(xml_to_json(response.content).get("projects")) == 1
 
   
-def test_post_project_negative_integer_string_json(before_each):
+def test_post_project_negative_integer_string_should_create_project_json(before_each):
   project = {
     "description": int(-1)
   }
@@ -212,7 +212,7 @@ def test_post_project_negative_integer_string_json(before_each):
   assert response_project.get("active") == ("true" if project.get("active", "") else "false")
   assert response_project.get("description") == f"{project.get("description")}.0"
 
-def test_post_project_with_negative_integer_string_xml(before_each):
+def test_post_project_with_negative_integer_should_create_project_xml(before_each):
   xml_data = '''
         <project>
   <active>false</active>
@@ -232,43 +232,7 @@ def test_post_project_with_negative_integer_string_xml(before_each):
   assert response_project.get("active") == "false"
   assert response_project.get("description") == "-1.0"
   
-def test_post_project_integer_id_json(before_each):
-  project = {
-    "id": 100
-  }
-  
-  response = httpx.post(projects_url, json=project)
-  
-  # ensure error message and that no project is created
-  assert response.status_code == 400
-  assert response.json() == {"errorMessages":["Invalid Creation: Failed Validation: Not allowed to create with id"]}
-  
-  response = httpx.get(projects_url)
-  # only one project should exist in the system: the project created in before_each
-  assert len(response.json().get("projects")) == 1
-  
-def test_post_project_integer_id_xml(before_each):
-  xml_data = '''
-        <project>
-        <id>100</id>
-  <active>false</active>
-  <description>description</description>
-  <completed>false</completed>
-  <title>title</title>
-</project>
-    '''
-  
-  response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-  
-  # ensure error message and that no project is created
-  assert response.status_code == 400
-  assert xml_to_json(response.content) == {"errorMessages":["Invalid Creation: Failed Validation: Not allowed to create with id"]}
-  
-  response = httpx.get(projects_url, headers=XML_HEADERS)
-  # only one project should exist in the system: the project created in before_each
-  assert len(xml_to_json(response.content).get("projects")) == 1
-  
-def test_post_project_with_title_query_param_json(before_each):
+def test_post_project_with_title_query_param_should_create_project_and_ignore_title_json(before_each):
   
   test_project_title = test_projects[0].get("title")
   project = {
@@ -291,7 +255,7 @@ def test_post_project_with_title_query_param_json(before_each):
   assert response.status_code == 200
   assert len(response.json().get("projects", [])) == 2
   
-def test_post_project_with_title_query_param_xml(before_each):
+def test_post_project_with_title_query_param_should_create_project_and_ignore_title_xml(before_each):
   
   test_project_title = test_projects[0].get("title")
   xml_data = '''
@@ -316,7 +280,7 @@ def test_post_project_with_title_query_param_xml(before_each):
   assert response.status_code == 200
   assert len(xml_to_json(response.content).get("projects")) == 2
   
-def test_post_project_with_id_query_param_json(before_each):
+def test_post_project_with_id_query_param_should_create_project_and_ignore_id_json(before_each):
   
   test_project_id = test_projects[0].get("id")
   project = {
@@ -338,7 +302,7 @@ def test_post_project_with_id_query_param_json(before_each):
   assert response.status_code == 200
   assert len(response.json().get("projects", [])) == 2
   
-def test_post_project_with_id_query_param_xml(before_each):
+def test_post_project_with_id_query_param_should_create_project_and_ignore_id_xml(before_each):
   
   test_project_id = test_projects[0].get("id")
   xml_data = '''
