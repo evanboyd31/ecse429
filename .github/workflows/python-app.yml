@@ -41,16 +41,14 @@ jobs:
         sleep 5
         poetry run pytest -s -v --random-order
       continue-on-error: true
+    - uses: actions/checkout@v4
     - name: Format Code
       run: |
         cd thingifier-tests
         poetry run black .
-    - uses: actions/checkout@v4
-    - name: Push Formatted Code
-      run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Formatted code with black"
-          git push
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Formatted code with black"
+        git push
 
