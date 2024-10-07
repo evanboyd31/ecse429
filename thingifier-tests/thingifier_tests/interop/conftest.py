@@ -6,6 +6,8 @@ todos_url: str = "http://localhost:4567/todos"
 categories_url: str = "http://localhost:4567/categories"
 projects_url: str = "http://localhost:4567/projects"
 
+XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
+
 # Note that ids will change every time
 default: dict = {
     "todos": [
