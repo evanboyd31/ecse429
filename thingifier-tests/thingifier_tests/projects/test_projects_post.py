@@ -3,40 +3,48 @@ from thingifier_tests.projects.conftest import *
     
 def test_post_project_with_string_boolean_should_not_create_project_json(before_each):
     invalid_project = {
-      "title": "title",
-      "completed": "false",
-      "active": "true",
-      "description": "description"
+        "title": "title",
+        "completed": "false",
+        "active": "true",
+        "description": "description",
     }
-    
+
     # ensure correct error messages and codes and check that no extra project has been created
     response = httpx.post(projects_url, json=invalid_project)
     assert response.status_code == 400
-    assert response.json() == {"errorMessages": ["Failed Validation: completed should be BOOLEAN, active should be BOOLEAN"]}
-    
+    assert response.json() == {
+        "errorMessages": [
+            "Failed Validation: completed should be BOOLEAN, active should be BOOLEAN"
+        ]
+    }
+
     response = httpx.get(projects_url)
     # only one project should exist in the system: the project created in before_each
     assert len(response.json().get("projects")) == 1
     
 def test_post_project_with_string_boolean_should_not_create_project_xml(before_each):
-    xml_data = '''
+    xml_data = """
         <project>
           <title type="string">type</title>
           <completed type="string">false</completed>
           <active type="string">false</active>
           <description type="string">description</description>
         </project>
-    '''
-    
+    """
+
     # ensure correct error messages and codes and check that no extra project has been created
     response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
     assert response.status_code == 400
-    assert xml_to_json(response.content) == {"errorMessages": ["Failed Validation: active should be BOOLEAN, completed should be BOOLEAN"]}
-    
+    assert xml_to_json(response.content) == {
+        "errorMessages": [
+            "Failed Validation: active should be BOOLEAN, completed should be BOOLEAN"
+        ]
+    }
+
     response = httpx.get(projects_url, headers=XML_HEADERS)
     # only one project should exist in the system: the project created in before_each
     assert len(xml_to_json(response.content).get("projects")) == 1
-    
+
 
 def test_post_project_valid_boolean_should_create_project_json(before_each):
   valid_project = {
@@ -55,14 +63,14 @@ def test_post_project_valid_boolean_should_create_project_json(before_each):
   assert_project(expected=valid_project, actual=response_json, check_id=False)
   
 def test_post_project_valid_boolean_should_create_project_xml(before_each):
-  xml_data = '''
+  xml_data = """
         <project>
   <active>false</active>
   <description>xercitation ullamcoa</description>
   <completed>false</completed>
   <title>ng elit, sed do eius</title>
 </project>
-    '''
+    """
 
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
   assert response.status_code == 201
@@ -105,21 +113,25 @@ def test_post_project_with_id_in_body_should_not_create_project_json(before_each
   assert len(response.json().get("projects")) == 1
   
 def test_post_project_with_id_in_body_should_not_create_project_xml(before_each):
-  xml_data = '''
+  xml_data = """
         <project>
-        <id>100</id>
-  <active>false</active>
-  <description>xercitation ullamcoa</description>
-  <completed>false</completed>
-  <title>ng elit, sed do eius</title>
-</project>
-    '''
-  
+          <id>100</id>
+          <active>false</active>
+          <description>xercitation ullamcoa</description>
+          <completed>false</completed>
+          <title>ng elit, sed do eius</title>
+        </project>
+    """
+
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-  
+
   assert response.status_code == 400
-  assert xml_to_json(response.content) == {"errorMessages": ["Invalid Creation: Failed Validation: Not allowed to create with id"]}
-  
+  assert xml_to_json(response.content) == {
+      "errorMessages": [
+          "Invalid Creation: Failed Validation: Not allowed to create with id"
+      ]
+  }
+
   response = httpx.get(projects_url, headers=XML_HEADERS)
   # only one project should exist in the system: the project created in before_each
   assert len(xml_to_json(response.content).get("projects")) == 1
@@ -176,21 +188,23 @@ def test_post_project_integer_boolean_should_not_create_project_json(before_each
   assert len(response.json().get("projects")) == 1
   
 def test_post_project_integer_boolean_should_not_create_project_xml(before_each):
-  xml_data = '''
+  xml_data = """
         <project>
   <active>false</active>
   <description>description</description>
   <completed>1</completed>
   <title>100</title>
 </project>
-    '''
-  
+    """
+
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-  
+
   # ensure there is a message and no projects are created
   assert response.status_code == 400
-  assert xml_to_json(response.content) == {"errorMessages":["Failed Validation: completed should be BOOLEAN"]}
-  
+  assert xml_to_json(response.content) == {
+      "errorMessages": ["Failed Validation: completed should be BOOLEAN"]
+  }
+
   response = httpx.get(projects_url, headers=XML_HEADERS)
   # only one project should exist in the system: the project created in before_each
   assert len(xml_to_json(response.content).get("projects")) == 1
@@ -213,14 +227,14 @@ def test_post_project_negative_integer_string_should_create_project_json(before_
   assert response_project.get("description") == f"{project.get("description")}.0"
 
 def test_post_project_with_negative_integer_should_create_project_xml(before_each):
-  xml_data = '''
+  xml_data = """
         <project>
   <active>false</active>
   <description>-1</description>
   <completed>false</completed>
   <title>title</title>
 </project>
-    '''
+    """
   
   response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
   
@@ -258,15 +272,15 @@ def test_post_project_with_title_query_param_should_create_project_and_ignore_ti
 def test_post_project_with_title_query_param_should_create_project_and_ignore_title_xml(before_each):
   
   test_project_title = test_projects[0].get("title")
-  xml_data = '''
+  xml_data = """
         <project>
-  <active>false</active>
-  <description>description</description>
-  <completed>false</completed>
-  <title>anotherTitle</title>
-</project>
-    '''
-  
+          <active>false</active>
+          <description>description</description>
+          <completed>false</completed>
+          <title>anotherTitle</title>
+        </project>
+    """
+
     # ensure a brand new project is created and the id in the query params was ignored
   response = httpx.post(f"{projects_url}?title={test_project_title}", data=xml_data, headers=XML_HEADERS)
   
@@ -290,9 +304,9 @@ def test_post_project_with_id_query_param_should_create_project_and_ignore_id_js
       "description": "description"
   }
   
-    # ensure a brand new project is created and the id in the query params was ignored
+  # ensure a brand new project is created and the id in the query params was ignored
   response = httpx.post(f"{projects_url}?id={test_project_id}", json=project)
-  
+
   assert response.status_code == 201
   response_project = response.json()
   assert_project(expected=project, actual=response_project, check_id=False)
@@ -305,23 +319,28 @@ def test_post_project_with_id_query_param_should_create_project_and_ignore_id_js
 def test_post_project_with_id_query_param_should_create_project_and_ignore_id_xml(before_each):
   
   test_project_id = test_projects[0].get("id")
-  xml_data = '''
+  xml_data = """
         <project>
-  <active>false</active>
-  <description>description</description>
-  <completed>false</completed>
-  <title>anotherTitle</title>
-</project>
-    '''
-  
-    # ensure a brand new project is created and the id in the query params was ignored
-  response = httpx.post(f"{projects_url}?id={test_project_id}", data=xml_data, headers=XML_HEADERS)
-  
+          <active>false</active>
+          <description>description</description>
+          <completed>false</completed>
+          <title>anotherTitle</title>
+        </project>
+    """
+
+  # ensure a brand new project is created and the id in the query params was ignored
+  response = httpx.post(
+      f"{projects_url}?id={test_project_id}", data=xml_data, headers=XML_HEADERS
+  )
+
   assert response.status_code == 201
   response_project = xml_to_json(response.content).get("project")
-  assert_project(expected=xml_to_json(xml_data).get("project"), actual=response_project, check_id=False)
+  assert_project(
+      expected=xml_to_json(xml_data).get("project"),
+      actual=response_project,
+      check_id=False,
+  )
 
-  
   # ensure two separate projects exist in the system
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert response.status_code == 200

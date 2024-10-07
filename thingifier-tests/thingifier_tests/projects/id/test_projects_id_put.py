@@ -1,6 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
+
 def test_id_put_project_with_string_boolean_should_not_update_project_json(before_each):
   test_project = test_projects[0]
   new_data = {
@@ -93,25 +94,34 @@ def test_id_put_project_different_string_id_should_not_update_project_json(befor
 
 def test_id_put_project_different_string_id_should_not_update_project_xml(before_each):
   test_project = test_projects[0]
-  new_data = '''
+  new_data = """
         <project>
-        <id type="string">200</id>
-  <active>true</active>
-  <description>new description</description>
-  <completed>true</completed>
-  <title>new title</title>
-</project>
-    '''
-  
-  response = httpx.put(f"{projects_url}/{test_project.get("id")}", data=new_data, headers=XML_HEADERS)
-  
+          <id type="string">200</id>
+          <active>true</active>
+          <description>new description</description>
+          <completed>true</completed>
+          <title>new title</title>
+        </project>
+    """
+
+  response = httpx.put(
+      f"{projects_url}/{test_project.get("id")}", data=new_data, headers=XML_HEADERS
+  )
+
   # ensure error is thrown and existing project is not updated
   assert response.status_code == 400
-  assert xml_to_json(response.content) == {"errorMessages":["Failed Validation: id should be ID"]}
-  
+  assert xml_to_json(response.content) == {
+      "errorMessages": ["Failed Validation: id should be ID"]
+  }
+
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert len(xml_to_json(response.content).get("projects")) == 1
-  assert_project(expected=test_project, actual=xml_to_json(response.content).get("projects")[0], check_id=True)
+  assert_project(
+      expected=test_project,
+      actual=xml_to_json(response.content).get("projects")[0],
+      check_id=True,
+  )
+
 
 def test_id_put_project_different_int_id_should_update_project_and_ignore_id_json(before_each):
   test_project = test_projects[0]
@@ -165,23 +175,30 @@ def test_id_put_project_boolean_id_should_not_update_project_json(before_each):
   
 def test_id_put_project_boolean_id_should_not_update_project_xml(before_each):
   test_project = test_projects[0]
-  new_data = '''
+  new_data = """
         <project>
-        <id>true</id>
-  <active>true</active>
-  <description>new description</description>
-  <completed>true</completed>
-  <title>new title</title>
-</project>
-    '''
-  
-  response = httpx.put(f"{projects_url}/{test_project.get("id")}", data=new_data, headers=XML_HEADERS)
-  
+          <id>true</id>
+          <active>true</active>
+          <description>new description</description>
+          <completed>true</completed>
+          <title>new title</title>
+        </project>
+        """
+
+  response = httpx.put(
+        f"{projects_url}/{test_project.get("id")}", data=new_data, headers=XML_HEADERS
+    )
+
   # ensure error is thrown and existing project is not updated
   assert response.status_code == 400
-  assert xml_to_json(response.content) == {"errorMessages":["Failed Validation: id should be ID"]}
-  
+  assert xml_to_json(response.content) == {
+      "errorMessages": ["Failed Validation: id should be ID"]
+  }
+
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert len(xml_to_json(response.content).get("projects")) == 1
-  assert_project(expected=test_project, actual=xml_to_json(response.content).get("projects")[0], check_id=True)
-  
+  assert_project(
+      expected=test_project,
+      actual=xml_to_json(response.content).get("projects")[0],
+      check_id=True,
+  )

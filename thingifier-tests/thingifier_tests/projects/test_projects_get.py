@@ -1,15 +1,16 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
+
 def test_get_projects_should_return_all_projects_json(before_each):
     """
     Test to get projects from the /projects API endpoint
     """
-    
+
     response = httpx.get(projects_url)
     assert response.status_code == 200
     list_of_projects = response.json().get("projects")
-    
+
     for test_project in test_projects:
       # response booleans are represented as strings, so make a copy of them
       expected_project = test_project.copy()
@@ -22,11 +23,11 @@ def test_get_projects_should_return_all_projects_xml(before_each):
     """
     Test to get projects from the /projects API endpoint
     """
-    
+
     response = httpx.get(projects_url, headers=XML_HEADERS)
     assert response.status_code == 200
     list_of_projects = xml_to_json(response.content).get("projects")
-    
+
     for i, test_project in enumerate(test_projects):
       # response booleans are represented as strings, so make a copy of the
       assert_project(expected=test_project, actual=list_of_projects[i], check_id=False)

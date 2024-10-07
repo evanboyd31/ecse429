@@ -29,7 +29,7 @@ system_state = {"todos": [], "projects": [], "categories": []}
 
 # Runs once before all tests in the module
 def pytest_sessionstart(session):
-    print("Setting up before all tests in the categories module")
+    print("Setting up before all tests in all modules")
     if make_sure_system_ready() != True:
         print("The system is not ready to be tested.")
         assert False
@@ -111,5 +111,3 @@ def make_sure_system_ready():
         return False
 
     return False
-
-

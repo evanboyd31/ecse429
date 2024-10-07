@@ -1,6 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
+
 def test_id_post_project_should_update_project_json(before_each):
     test_project = test_projects[0]
 
@@ -10,18 +11,16 @@ def test_id_post_project_should_update_project_json(before_each):
         "title": "updated title",
         "completed": True,
         "active": True,
-        "description": "updated description"
+        "description": "updated description",
     }
     response = httpx.put(f"{projects_url}/{id}", json=updated_project)
-    
-    assert response.status_code == 200 
+
+    assert response.status_code == 200
     response_project = response.json()
-    
-    updated_project.update({
-      "id": id
-    })
+
+    updated_project.update({"id": id})
     assert_project(expected=updated_project, actual=response_project, check_id=True)
-    
+
     # ensure only a single project exists in the system
     response = httpx.get(projects_url)
     assert response.status_code == 200
@@ -32,26 +31,24 @@ def test_id_post_project_should_update_project_xml(before_each):
 
     id = test_project.get("id")
 
-    xml_data = '''
+    xml_data = """
                 <project>
                 <active>true</active>
                 <description>updated description</description>
                 <completed>false</completed>
                 <title>updated title</title>
                 </project>
-                '''
+                """
     response = httpx.put(f"{projects_url}/{id}", data=xml_data, headers=XML_HEADERS)
-    
-    assert response.status_code == 200 
+
+    assert response.status_code == 200
     response_project = xml_to_json(response.content).get("project")
-    
+
     expected = xml_to_json(xml_data).get("project")
-    expected.update({
-      "id": f"{id}"
-    })
-    
+    expected.update({"id": f"{id}"})
+
     assert_project(expected=expected, actual=response_project, check_id=False)
-    
+
     # ensure only a single project exists in the system
     response = httpx.get(projects_url, headers=XML_HEADERS)
     assert response.status_code == 200
@@ -76,8 +73,8 @@ def test_id_post_project_with_new_id_string_should_not_update_project_xml(before
   test_project = test_projects[0]
 
   id = str(int(test_project.get("id")) + 1)
-  
-  xml_data = f'''
+
+  xml_data = f"""
                 <project>
                 <id type="string">{id}</id>
                 <active>true</active>
@@ -85,7 +82,7 @@ def test_id_post_project_with_new_id_string_should_not_update_project_xml(before
                 <completed>false</completed>
                 <title>updated title</title>
                 </project>
-                '''
+              """
   
   response = httpx.post(f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS)
   assert response.status_code != 200
@@ -127,8 +124,8 @@ def test_id_post_project_with_new_int_id_should_not_update_project_xml(before_ea
   test_project = test_projects[0]
 
   id = int(test_project.get("id")) + 1
-  
-  xml_data = f'''
+
+  xml_data = f"""
                 <project>
                 <id>{id}</id>
                 <active>true</active>
@@ -136,17 +133,25 @@ def test_id_post_project_with_new_int_id_should_not_update_project_xml(before_ea
                 <completed>false</completed>
                 <title>updated title</title>
                 </project>
-                '''
-  
-  response = httpx.post(f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS)
+                """
+
+  response = httpx.post(
+        f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS
+  )
   assert response.status_code == 200
-  
+
   response_project = xml_to_json(response.content).get("project")
-  
-  assert_project(expected=xml_to_json(xml_data).get("project"), actual=response_project, check_id=False)
-  
+
+  assert_project(
+      expected=xml_to_json(xml_data).get("project"),
+      actual=response_project,
+      check_id=False,
+  )
+
   # ensure that only one project exists in the system and it has the old id
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert response.status_code == 200
   assert len(xml_to_json(response.content).get("projects")) == 1
-  assert xml_to_json(response.content).get("projects")[0].get("id") == test_project.get("id")
+  assert xml_to_json(response.content).get("projects")[0].get(
+      "id"
+  ) == test_project.get("id")

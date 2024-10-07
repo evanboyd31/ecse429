@@ -8,11 +8,16 @@ test_categories = [
 ]
 categories_url = url_header + "categories"
 
+XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
+
 
 # Runs before each test
 @pytest.fixture()
 def setup_each():
     print("Setting up before each categories test")
+    if make_sure_system_ready() != True:
+        print("The system is not ready to be tested.")
+        assert False
     # Create a few instances that will be used in tests
     for i in range(len(test_categories)):
         response = httpx.post(url_header + "categories", json=test_categories[i]).json()

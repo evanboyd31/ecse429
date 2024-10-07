@@ -1,6 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
+
 def test_get_project_with_path_id_should_get_project_with_that_id_json(before_each):
   project = test_projects[0]
   response = httpx.get(f"{projects_url}/{project.get("id")}")

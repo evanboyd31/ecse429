@@ -1,6 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
+
 def test_post_project_with_string_boolean_fails_to_create_project_json(before_each):
   """
   In the provided JSON input in the API documentation, the Boolean variables for a project, 
@@ -31,32 +32,30 @@ def test_post_project_with_string_boolean_fails_to_create_project_json(before_ea
     
 def test_post_project_with_string_boolean_fails_to_create_project_xml(before_each):
     """
-    In the provided JSON input in the API documentation, the Boolean variables for a project, 
+    In the provided JSON input in the API documentation, the Boolean variables for a project,
     completed and active, are represented as strings. This test illustrates the
     expected behaviour according to the API documentation, but ultimately fails.
-    """  
-    xml_data = '''
+    """
+    xml_data = """
         <project>
           <title type="string">type</title>
           <completed type="string">false</completed>
           <active type="string">false</active>
           <description type="string">description</description>
         </project>
-    '''
-    
+    """
+
     # the response message should've had message 201 and returned the created project
     response = httpx.post(projects_url, data=xml_data, headers=XML_HEADERS)
-    
+
     expected_project = xml_to_json(xml_data)
-    expected_project.get("project").update({
-      "id": response.json().get("id")
-    })
-    
+    expected_project.get("project").update({"id": response.json().get("id")})
+
     assert response.status_code == 201
     assert xml_to_json(response.content) == expected_project
-    
+
     response = httpx.get(projects_url, headers=XML_HEADERS)
-     # only one project should exist in the system: the project created in before_each
+    # only one project should exist in the system: the project created in before_each
     assert len(xml_to_json(response.content).get("projects")) == 2
     
 def test_id_post_project_with_new_id_fails_to_update_project_id_json(before_each):
@@ -69,21 +68,27 @@ def test_id_post_project_with_new_id_fails_to_update_project_id_json(before_each
   test_project = test_projects[0]
 
   id = int(test_project.get("id")) + 1
-  
+
   project = {
-    "id": id,
-    "title": "New title",
-    "completed": True,
-    "active": True,
-    "description": "New description"
+      "id": id,
+      "title": "New title",
+      "completed": True,
+      "active": True,
+      "description": "New description",
   }
-  
+
   # project should've been updated with new id
   response = httpx.post(f"{projects_url}/{test_project.get("id")}", json=project)
   assert response.status_code == 200
   response_project = response.json()
-  assert response_project == {"id": f"{id}", "title": "New title", "completed": "true", "active": "true", "description": "New description"}
-  
+  assert response_project == {
+      "id": f"{id}",
+      "title": "New title",
+      "completed": "true",
+      "active": "true",
+      "description": "New description",
+  }
+
   # ensure that only one project exists in the system. it should've had new id
   response = httpx.get(projects_url)
   assert response.status_code == 200
@@ -100,16 +105,16 @@ def test_id_post_project_with_new_id_fails_to_update_project_id_xml(before_each)
   test_project = test_projects[0]
 
   id = int(test_project.get("id")) + 1
-  
-  xml_data = f'''
-                <project>
-                <id>{id}</id>
-                <active>true</active>
-                <description>updated description</description>
-                <completed>false</completed>
-                <title>updated title</title>
-                </project>
-                '''
+
+  xml_data = f"""
+              <project>
+              <id>{id}</id>
+              <active>true</active>
+              <description>updated description</description>
+              <completed>false</completed>
+              <title>updated title</title>
+              </project>
+              """
   # project should've been updated to have new id
   response = httpx.post(f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS)
   assert response.status_code == 200
@@ -183,21 +188,27 @@ def test_id_put_project_with_new_id_fails_to_update_project_id_json(before_each)
   test_project = test_projects[0]
 
   id = int(test_project.get("id")) + 1
-  
+
   project = {
-    "id": id,
-    "title": "New title",
-    "completed": True,
-    "active": True,
-    "description": "New description"
+      "id": id,
+      "title": "New title",
+      "completed": True,
+      "active": True,
+      "description": "New description",
   }
-  
+
   # project should've been updated with new id
   response = httpx.put(f"{projects_url}/{test_project.get("id")}", json=project)
   assert response.status_code == 200
   response_project = response.json()
-  assert response_project == {"id": f"{id}", "title": "New title", "completed": "true", "active": "true", "description": "New description"}
-  
+  assert response_project == {
+      "id": f"{id}",
+      "title": "New title",
+      "completed": "true",
+      "active": "true",
+      "description": "New description",
+  }
+
   # ensure that only one project exists in the system. it should've had new id
   response = httpx.get(projects_url)
   assert response.status_code == 200
@@ -214,25 +225,32 @@ def test_id_put_project_with_new_id_fails_to_update_project_id_xml(before_each):
   test_project = test_projects[0]
 
   id = int(test_project.get("id")) + 1
-  
-  xml_data = f'''
-                <project>
-                <id>{id}</id>
-                <active>true</active>
-                <description>updated description</description>
-                <completed>false</completed>
-                <title>updated title</title>
-                </project>
-                '''
+
+  xml_data = f"""
+              <project>
+              <id>{id}</id>
+              <active>true</active>
+              <description>updated description</description>
+              <completed>false</completed>
+              <title>updated title</title>
+              </project>
+              """
   # project should've been updated to have new id
-  response = httpx.put(f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS)
+  response = httpx.put(
+      f"{projects_url}/{test_project.get("id")}", data=xml_data, headers=XML_HEADERS
+  )
   assert response.status_code == 200
   response_project = xml_to_json(response.content).get("project")
-  assert response_project == {"id": f"{id}", "title": "New title", "completed": "true", "active": "true", "description": "New description"}
-  
+  assert response_project == {
+      "id": f"{id}",
+      "title": "New title",
+      "completed": "true",
+      "active": "true",
+      "description": "New description",
+  }
+
   # ensure that only one project exists in the system. it should've had new id
   response = httpx.get(projects_url, headers=XML_HEADERS)
   assert response.status_code == 200
   assert len(xml_to_json(response.content).get("projects")) == 1
   assert xml_to_json(response.content).get("projects")[0].get("id") == f"{id}"
-    
