@@ -22,9 +22,12 @@ def test_delete_categories_nonexistent_should_return_404(setup_each):
     assert res.status_code == 404
     assert res.json() == errorMessage
 
+
 def test_delete_categories_id_xml(setup_each):
     print("Running test_delete_categories_id_xml")
-    res = httpx.delete(categories_url + '/' + test_categories[0]["id"], headers=XML_HEADERS)
+    res = httpx.delete(
+        categories_url + "/" + test_categories[0]["id"], headers=XML_HEADERS
+    )
     assert res.status_code == 200
     resGet = httpx.get(categories_url + "/" + test_categories[0]["id"])
     assert resGet.status_code == 404
