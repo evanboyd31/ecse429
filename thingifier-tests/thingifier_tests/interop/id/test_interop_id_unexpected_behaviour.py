@@ -7,7 +7,6 @@ class TestInteropIdUnexpected:
         project = default["projects"][1]
         xml_data = "<project><id>" + project["id"] + "</id></project>"
         res = httpx.post(todos_url + "/" + todo["id"] + "/tasksof", data=xml_data, headers=XML_HEADERS)
-        print(res.content)
         assert res.status_code == 201
         res = httpx.get(todos_url + "/" + todo["id"] + "/tasksof", headers=XML_HEADERS)
         assert xmltodict.parse(res.content)["projects"]["project"]["id"] == project["id"]

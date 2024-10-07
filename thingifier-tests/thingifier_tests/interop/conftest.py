@@ -57,11 +57,13 @@ default: dict = {
 
 @pytest.fixture(autouse=True)
 def before_each():
+    if common.make_sure_system_ready() != True:
+        print("The system is not ready to be tested.")
+        assert False
     common.remove_all()
 
     def add_to_todos(title: str):
         res = httpx.post(todos_url, json={"title": title})
-        print(res.json())
         todo = list(
             filter(lambda todo: todo["title"] == title, default["todos"])
         )[0]
@@ -69,7 +71,6 @@ def before_each():
 
     def add_to_categories(title: str):
         res = httpx.post(categories_url, json={"title": title})
-        print(res.json())
         category = list(
             filter(lambda category: category["title"] == title, default["categories"])
         )[0]
@@ -77,7 +78,6 @@ def before_each():
 
     def add_to_projects(title: str):
         res = httpx.post(projects_url, json={"title": title})
-        print(res.json())
         project = list(
             filter(lambda project: project["title"] == title, default["projects"])
         )[0]
