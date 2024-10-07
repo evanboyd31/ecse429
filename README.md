@@ -1,3 +1,10 @@
+# Thingifier Application
+
+## How to run:
+
+1. cd into the Application_Being_Tested folder `cd Application_Being_Tested`
+2. Run the jar file `java -jar runTodoManagerRestAPI-1.5.5.jar`
+
 # Thingifier Tests
 
 ## How to run:
