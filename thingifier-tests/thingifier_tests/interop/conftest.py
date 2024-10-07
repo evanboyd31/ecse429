@@ -51,7 +51,7 @@ default: dict = {
             "active": False,
             "description": "test description 2",
         },
-    ]
+    ],
 }
 
 
@@ -64,9 +64,7 @@ def before_each():
 
     def add_to_todos(title: str):
         res = httpx.post(todos_url, json={"title": title})
-        todo = list(
-            filter(lambda todo: todo["title"] == title, default["todos"])
-        )[0]
+        todo = list(filter(lambda todo: todo["title"] == title, default["todos"]))[0]
         todo["id"] = res.json()["id"]
 
     def add_to_categories(title: str):
@@ -88,21 +86,36 @@ def before_each():
 
     for category in default["categories"]:
         add_to_categories(category["title"])
-    
+
     for project in default["projects"]:
         add_to_projects(project["title"])
-    
+
     # add relationship between todos and projects
-    httpx.post(f"{todos_url}/{default['todos'][0]['id']}/tasksof", json={"id": default['projects'][0]['id']})
+    httpx.post(
+        f"{todos_url}/{default['todos'][0]['id']}/tasksof",
+        json={"id": default["projects"][0]["id"]},
+    )
 
     # add relationship between todos and categories
-    httpx.post(f"{todos_url}/{default['todos'][0]['id']}/categories", json={"id": default['categories'][0]['id']})
+    httpx.post(
+        f"{todos_url}/{default['todos'][0]['id']}/categories",
+        json={"id": default["categories"][0]["id"]},
+    )
 
     # add relationship between projects and categories
-    httpx.post(f"{projects_url}/{default['projects'][0]['id']}/categories", json={"id": default['categories'][0]['id']})
+    httpx.post(
+        f"{projects_url}/{default['projects'][0]['id']}/categories",
+        json={"id": default["categories"][0]["id"]},
+    )
 
     # add relationship between categories and todos???
-    httpx.post(f"{categories_url}/{default['categories'][0]['id']}/todos", json={"id": default['todos'][0]['id']})
+    httpx.post(
+        f"{categories_url}/{default['categories'][0]['id']}/todos",
+        json={"id": default["todos"][0]["id"]},
+    )
 
     # add relationship between categories and projects
-    httpx.post(f"{categories_url}/{default['categories'][0]['id']}/projects", json={"id": default['projects'][0]['id']})
+    httpx.post(
+        f"{categories_url}/{default['categories'][0]['id']}/projects",
+        json={"id": default["projects"][0]["id"]},
+    )

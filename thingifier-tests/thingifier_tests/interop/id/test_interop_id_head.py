@@ -1,12 +1,12 @@
 from thingifier_tests.interop.conftest import *
 
 
-class TestInteropIdHead():
+class TestInteropIdHead:
     def test_head_todos_id_projects_should_return_200(self):
         todo = default["todos"][0]
         res = httpx.head(todos_url + "/" + todo["id"] + "/tasksof")
         assert res.status_code == 200
-    
+
     def test_head_todos_id_categories_should_return_200(self):
         todo = default["todos"][0]
         res = httpx.head(todos_url + "/" + todo["id"] + "/categories")
@@ -31,5 +31,3 @@ class TestInteropIdHead():
         category = default["categories"][0]
         res = httpx.head(categories_url + "/" + category["id"] + "/projects")
         assert res.status_code == 200
-
-    
