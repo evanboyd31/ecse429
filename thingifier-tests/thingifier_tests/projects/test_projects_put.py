@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_put_project_filter_by_title_json(before_each):
+def test_put_project_filter_by_title_should_not_update_projects_with_title_json(before_each):
   test_project = test_projects[0]
   
   new_data = {
@@ -18,7 +18,7 @@ def test_put_project_filter_by_title_json(before_each):
   
   assert_project(expected=test_project, actual=response.json().get("projects")[0], check_id=True)
 
-def test_put_project_filter_by_title_xml(before_each):
+def test_put_project_filter_by_title_should_not_update_projects_with_title_xml(before_each):
   test_project = test_projects[0]
   
   xml_data = '''
