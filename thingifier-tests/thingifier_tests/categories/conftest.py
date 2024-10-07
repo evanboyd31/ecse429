@@ -10,6 +10,7 @@ categories_url = url_header + "categories"
 
 XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
 
+
 # Runs before each test
 @pytest.fixture()
 def setup_each():

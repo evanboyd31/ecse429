@@ -111,5 +111,3 @@ def make_sure_system_ready():
         return False
 
     return False
-
-
