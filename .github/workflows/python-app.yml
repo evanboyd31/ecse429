@@ -40,3 +40,7 @@ jobs:
         cd ../thingifier-tests
         sleep 5
         poetry run pytest -s -v --random-order
+    - name: Format Code
+      run: |
+        cd thingifier-tests
+        poetry run black .
