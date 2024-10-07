@@ -1,7 +1,7 @@
 import httpx
 from thingifier_tests.projects.conftest import *
 
-def test_id_put_project_with_string_boolean_json(before_each):
+def test_id_put_project_with_string_boolean_should_not_update_project_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "title": "new title",
@@ -21,7 +21,7 @@ def test_id_put_project_with_string_boolean_json(before_each):
   
   assert_project(expected=test_project, actual=response.json().get("projects")[0], check_id=True)
 
-def test_id_put_project_with_string_boolean_xml(before_each):
+def test_id_put_project_with_string_boolean_should_not_update_project_xml(before_each):
   test_project = test_projects[0]
   new_data = '''
              <project>
@@ -43,7 +43,7 @@ def test_id_put_project_with_string_boolean_xml(before_each):
   
   assert_project(expected=test_project, actual=xml_to_json(response.content).get("projects")[0], check_id=True)
   
-def test_id_put_project_with_valid_boolean_json(before_each):
+def test_id_put_project_with_valid_boolean_should_update_project_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "title": "new title",
@@ -58,7 +58,7 @@ def test_id_put_project_with_valid_boolean_json(before_each):
   assert response.status_code == 200
   assert_project(expected=new_data, actual=response.json())
   
-def test_id_put_project_with_valid_boolean_xml(before_each):
+def test_id_put_project_with_valid_boolean_should_update_project_xml(before_each):
   test_project = test_projects[0]
   new_data = '''
         <project>
@@ -75,7 +75,7 @@ def test_id_put_project_with_valid_boolean_xml(before_each):
   assert response.status_code == 200
   assert_project(expected=xml_to_json(new_data).get("project"), actual=xml_to_json(response.content).get("project"))
   
-def test_id_put_project_different_string_id_json(before_each):
+def test_id_put_project_different_string_id_should_not_update_project_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "id": "200"
@@ -91,7 +91,7 @@ def test_id_put_project_different_string_id_json(before_each):
   assert len(response.json().get("projects")) == 1
   assert_project(expected=test_project, actual=response.json().get("projects")[0], check_id=True)
 
-def test_id_put_project_different_string_id_xml(before_each):
+def test_id_put_project_different_string_id_should_not_update_project_xml(before_each):
   test_project = test_projects[0]
   new_data = '''
         <project>
@@ -113,7 +113,7 @@ def test_id_put_project_different_string_id_xml(before_each):
   assert len(xml_to_json(response.content).get("projects")) == 1
   assert_project(expected=test_project, actual=xml_to_json(response.content).get("projects")[0], check_id=True)
 
-def test_id_put_project_different_int_id_json(before_each):
+def test_id_put_project_different_int_id_should_update_project_and_ignore_id_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "id": 200,
@@ -129,7 +129,7 @@ def test_id_put_project_different_int_id_json(before_each):
   assert response.status_code == 200
   assert_project(expected=new_data, actual=response.json(), check_id=False)
   
-def test_id_put_project_different_int_id_xml_actual_behaviour(before_each):
+def test_id_put_project_different_int_id_should_update_project_and_ignore_id_xml(before_each):
   test_project = test_projects[0]
   new_data = '''
             <project>
@@ -147,7 +147,7 @@ def test_id_put_project_different_int_id_xml_actual_behaviour(before_each):
   assert response.status_code == 200
   assert_project(expected=xml_to_json(new_data).get("project"), actual=xml_to_json(response.content).get("project"))
   
-def test_id_put_project_different_boolean_id_json(before_each):
+def test_id_put_project_boolean_id_should_not_update_project_json(before_each):
   test_project = test_projects[0]
   new_data = {
     "id": True
@@ -163,7 +163,7 @@ def test_id_put_project_different_boolean_id_json(before_each):
   assert len(response.json().get("projects")) == 1
   assert_project(expected=test_project, actual=response.json().get("projects")[0], check_id=True)
   
-def test_id_put_project_different_boolean_id_xml(before_each):
+def test_id_put_project_boolean_id_should_not_update_project_xml(before_each):
   test_project = test_projects[0]
   new_data = '''
         <project>
