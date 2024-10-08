@@ -20,6 +20,7 @@ def test_get_categories_xml(setup_each):
     assert res.status_code == 200
     assert contain_same_categories(resJson["categories"]["category"], test_categories)
 
+
 def test_get_categories_query_id_should_return_corresponding_categories(setup_each):
     print("Running test_get_categories_query_id_should_return_corresponding_categories")
     res = httpx.get(categories_url + "?id=" + test_categories[0]["id"])
@@ -27,9 +28,14 @@ def test_get_categories_query_id_should_return_corresponding_categories(setup_ea
     assert res.status_code == 200
     assert contain_same_categories(res.json()["categories"], actual)
 
+
 def test_get_categories_query_id_should_return_corresponding_categories_xml(setup_each):
-    print("Running test_get_categories_query_id_should_return_corresponding_categories_xml")
-    res = httpx.get(categories_url + "?id=" + test_categories[0]["id"], headers=XML_HEADERS)
+    print(
+        "Running test_get_categories_query_id_should_return_corresponding_categories_xml"
+    )
+    res = httpx.get(
+        categories_url + "?id=" + test_categories[0]["id"], headers=XML_HEADERS
+    )
     actual = [test_categories[0]]
     assert res.status_code == 200
     resJson = xmltodict.parse(res.content)
@@ -45,15 +51,21 @@ def test_get_categories_query_title_should_return_corresponding_categories(setup
     assert res.status_code == 200
     assert contain_same_categories(res.json()["categories"], actual)
 
-def test_get_categories_query_title_should_return_corresponding_categories_xml(setup_each):
+
+def test_get_categories_query_title_should_return_corresponding_categories_xml(
+    setup_each,
+):
     print(
         "Running test_get_categories_query_title_should_return_corresponding_categories_xml"
     )
-    res = httpx.get(categories_url + "?title=" + test_categories[0]["title"], headers=XML_HEADERS)
+    res = httpx.get(
+        categories_url + "?title=" + test_categories[0]["title"], headers=XML_HEADERS
+    )
     actual = [test_categories[0], test_categories[1]]
     assert res.status_code == 200
     resJson = xmltodict.parse(res.content)
-    assert contain_same_categories(resJson["categories"]['category'], actual)
+    assert contain_same_categories(resJson["categories"]["category"], actual)
+
 
 def test_get_categories_query_description_should_return_corresponding_categories(
     setup_each,
@@ -68,6 +80,7 @@ def test_get_categories_query_description_should_return_corresponding_categories
     assert res.status_code == 200
     assert contain_same_categories(res.json()["categories"], actual)
 
+
 def test_get_categories_query_description_should_return_corresponding_categories_xml(
     setup_each,
 ):
@@ -75,12 +88,13 @@ def test_get_categories_query_description_should_return_corresponding_categories
         "Running test_get_categories_query_description_should_return_corresponding_categories_xml"
     )
     res = httpx.get(
-        categories_url + "?description=" + test_categories[0]["description"], headers=XML_HEADERS
+        categories_url + "?description=" + test_categories[0]["description"],
+        headers=XML_HEADERS,
     )
     actual = [test_categories[0]]
     assert res.status_code == 200
     resJson = xmltodict.parse(res.content)
-    assert contain_same_categories([resJson["categories"]['category']], actual)
+    assert contain_same_categories([resJson["categories"]["category"]], actual)
 
 
 def test_get_categories_query_all_should_return_corresponding_categories(setup_each):
@@ -100,7 +114,10 @@ def test_get_categories_query_all_should_return_corresponding_categories(setup_e
     assert res.status_code == 200
     assert contain_same_categories(res.json()["categories"], actual)
 
-def test_get_categories_query_all_should_return_corresponding_categories_xml(setup_each):
+
+def test_get_categories_query_all_should_return_corresponding_categories_xml(
+    setup_each,
+):
     print(
         "Running test_get_categories_query_all_should_return_corresponding_categories_xml"
     )
@@ -111,12 +128,14 @@ def test_get_categories_query_all_should_return_corresponding_categories_xml(set
         + "&title="
         + test_categories[0]["title"]
         + "&description="
-        + test_categories[0]["description"], headers=XML_HEADERS
+        + test_categories[0]["description"],
+        headers=XML_HEADERS,
     )
     actual = [test_categories[0]]
     assert res.status_code == 200
     resJson = xmltodict.parse(res.content)
-    assert contain_same_categories([resJson["categories"]['category']], actual)
+    assert contain_same_categories([resJson["categories"]["category"]], actual)
+
 
 def test_get_categories_query_nonexistent_should_return_empty(setup_each):
     print("Running test_get_categories_query_nonexistent_should_return_empty")
@@ -124,6 +143,7 @@ def test_get_categories_query_nonexistent_should_return_empty(setup_each):
     actual = []
     assert res.status_code == 200
     assert contain_same_categories(res.json()["categories"], actual)
+
 
 def test_get_categories_query_nonexistent_should_return_empty_xml(setup_each):
     print("Running test_get_categories_query_nonexistent_should_return_empty_xml")
@@ -133,10 +153,12 @@ def test_get_categories_query_nonexistent_should_return_empty_xml(setup_each):
     resJson = xmltodict.parse(res.content)
     assert resJson["categories"] == actual
 
+
 def test_get_categories_extendedendpoint_should_return_notfound(setup_each):
     print("Running test_get_categories_extendedendpoint_should_return_notfound")
     res = httpx.get(categories_url + "/")
     assert res.status_code == 404
+
 
 def test_get_categories_extendedendpoint_should_return_notfound_xml(setup_each):
     print("Running test_get_categories_extendedendpoint_should_return_notfound_xml")
