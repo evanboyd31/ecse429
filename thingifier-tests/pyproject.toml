@@ -14,6 +14,7 @@ pytest-watch = "^4.2"
 pytest-testmon = "^2.1"
 black = "^24.8"
 pytest-random-order = "^1.1"
+behave = "^1.2.6" 
 
 [build-system]
 requires = ["poetry-core"]
