@@ -62,12 +62,11 @@ def create_project(context, title, completed, active, description, project_id=No
 
     context.actual_project = response.json()
 
-def update_project(context, title, completed, active, description, project_id=None, use_post_url=True):
+def update_project(context, title, completed, active, description, project_id, use_post_url=True):
     project = create_project_JSON(title=title,
                                   completed=completed,
                                   active=active,
-                                  description=description,
-                                  project_id=project_id)
+                                  description=description)
     
     response = None
     if use_post_url:
@@ -162,10 +161,27 @@ def step_when_the_user_deletes_project_with_id_and_extra_query_params(context, t
     context.response = response
 
 
-@when('the user updates the project with id {id} by specifying title {title}, completed {completed}, active {active}, and description {description} using POST /projects/:id')
-def step_when_user_updates_project_using_post(context, id, title, completed, active, description):
-    pass
-
+@when('the user updates the project with title {title} by specifying new title {newTitle}, completed {newCompleted}, active {newActive}, and description {newDescription} using POST /projects/:id')
+def step_when_user_updates_project_using_post(context, title, newTitle, newCompleted, newActive, newDescription):
+    project_id = context.title_id_map.get(title)
+    update_project(context=context, 
+                   title=newTitle, 
+                   completed=newCompleted, 
+                   active=newActive, 
+                   description=newDescription, 
+                   project_id=project_id, 
+                   use_post_url=True)
+    
+@when('the user updates the project with title {title} by specifying new title {newTitle}, completed {newCompleted}, active {newActive}, and description {newDescription} using PUT /projects/:id')
+def step_when_user_updates_project_using_post(context, title, newTitle, newCompleted, newActive, newDescription):
+    project_id = context.title_id_map.get(title)
+    update_project(context=context, 
+                   title=newTitle, 
+                   completed=newCompleted, 
+                   active=newActive, 
+                   description=newDescription, 
+                   project_id=project_id, 
+                   use_post_url=False)
 
 @then('the project {project} should be created')
 def step_then_project_created(context, project):
@@ -181,6 +197,24 @@ def step_then_project_created(context, project):
 
     assert_project(expected=expected_project, 
                    actual=context.actual_project, 
+                   compare_id=False)
+    
+@then('the project that had title {title} should have the new fields {project}')
+def step_then_project_that_had_title_has_new_fields(context, title, project):
+    project_fields = project.split(",")
+
+    expected_project = {
+        "title": project_fields[0],
+        "completed": project_fields[1],
+        "active": project_fields[2],
+        "description": project_fields[3]
+    }
+
+    print(expected_project)
+    print(context.actual_project)
+
+    assert_project(expected=expected_project,
+                   actual=context.actual_project,
                    compare_id=False)
 
 
