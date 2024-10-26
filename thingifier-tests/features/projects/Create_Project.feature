@@ -1,5 +1,5 @@
 Feature: Create Project
-As a user, I want to create a project So that I can keep track of related tasks.
+As a user, I want to create a project so that I can keep track of related tasks.
 
     Scenario Outline: User creates a project with all fields (Normal Flow)
         When the user creates a project by specifying title <title>, completed <completed>, active <active>, and description <description>
