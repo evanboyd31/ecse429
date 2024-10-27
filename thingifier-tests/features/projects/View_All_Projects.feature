@@ -4,14 +4,14 @@ I want to modify a project
 So that the project reflects chaning requirements over time.
 
     Background:
-        Given the following projects exist in the system:
-            | project                                                                                                           |
-            | {"title": "Project Title #1", "completed": false, "active": true, "description": "The best project"}              |
-            | {"title": "Project Title #2", "completed": true, "active": false, "description": "The second best project"}       |
+        Given the following projects are the only objects that exist in the system:
+            | title            | completed | active | description             |
+            | Project Title #1 | false     | true   | The best project        |
+            | Project Title #2 | true      | false  | The second best project |
 
     Scenario Outline: User views all projects using JSON (Normal Flow)
         When the user attempts to view all projects in JSON format
-        Then the user should see the projects "<project1>" and "<project2>" in the JSON response
+        Then the user should see the projects <project1> and <project2> in the JSON response
 
         Examples:
             | project1                                                                                             | project2                                                                                                    |
@@ -19,7 +19,7 @@ So that the project reflects chaning requirements over time.
 
     Scenario Outline: User views all projects using XML (Alternate Flow)
         When the user attempts to view all projects in XML format
-        Then the user should see the projects "<project1>" and "<project2>" in the XML response
+        Then the user should see the projects <project1> and <project2> in the XML response
 
         Examples:
             | project1                                                                                                                                       | project2                                                                                                                                              | 
@@ -30,7 +30,7 @@ So that the project reflects chaning requirements over time.
         Given all projects in the system have been deleted
         When the user attempts to view all projects in JSON format
         Then the user should receive an empty JSON array
-        And the user should not see the projects "<project1>" and "<project2>" in the JSON response
+        And the user should not see the projects <project1> and <project2> in the JSON response
 
         Examples:
             | project1                                                                                             | project2                                                                                                    |
