@@ -12,5 +12,3 @@ def step_given_the_thingifier_application_is_running(context):
             assert False
     except httpx.ConnectError:
         assert False
-
-    assert False
