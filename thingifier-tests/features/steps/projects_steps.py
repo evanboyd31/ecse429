@@ -175,7 +175,7 @@ def assert_project_is_in_response(projects, project):
     assert project_in_response
 
 
-@given("the following projects are the only objects that exist in the system")
+@given("no objects exist other than the following projects")
 def step_given_projects_exist_in_the_system(context):
 
     # first delete all projects in the system

@@ -4,10 +4,11 @@ I want to modify a project
 So that I can keep track of the progress of on-going projects.
 
     Background:
-        Given the following projects are the only objects that exist in the system:
+        Given the thingifier application is running
+        And no objects exist other than the following projects:
             | title            | completed | active | description             |
             | Project Title #1 | true      | false  | The best project        |
-            | Project Title #2 | false     | true  | The second best project |
+            | Project Title #2 | false     | true  | The second best project  |
 
     Scenario Outline: User views all active projects using JSON (Normal Flow)
         When the user attempts to view all active projects in JSON format

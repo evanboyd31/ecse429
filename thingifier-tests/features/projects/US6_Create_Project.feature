@@ -1,6 +1,9 @@
 Feature: Create Project
 As a user, I want to create a project so that I can keep track of related tasks.
 
+    Background:
+        Given the thingifier application is running
+
     Scenario Outline: User creates a project with all fields (Normal Flow)
         When the user creates a project by specifying title <title>, completed <completed>, active <active>, and description <description>
         Then the project <project> should be created
@@ -25,7 +28,7 @@ As a user, I want to create a project so that I can keep track of related tasks.
     Scenario Outline: User attempts to create a project with a pre-specified ID (Error Flow)
         When the user attempts to create a project by specifying id <projectId>, title <title>, completed <completed>, active <active>, and description <description>
         Then the response should have status code <statusCode>
-        And the error message <errorMessage> should be raised
+        And the thingifier app should return an error message containing "<errorMessage>"
 
         Examples:
             | projectId | title           | completed | active | description           | statusCode | errorMessage                                                       |

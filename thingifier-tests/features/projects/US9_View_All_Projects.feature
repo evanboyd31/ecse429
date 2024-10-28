@@ -4,7 +4,8 @@ I want to modify a project
 So that the project reflects chaning requirements over time.
 
     Background:
-        Given the following projects are the only objects that exist in the system:
+        Given the thingifier application is running
+        And no objects exist other than the following projects:
             | title            | completed | active | description             |
             | Project Title #1 | false     | true   | The best project        |
             | Project Title #2 | true      | false  | The second best project |
