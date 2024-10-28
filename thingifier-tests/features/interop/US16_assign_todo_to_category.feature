@@ -1,5 +1,4 @@
 Feature: Assign todo to category
-
 As a student,
 I want to assign a todo to a category
 So that I can organize related or similar todos.

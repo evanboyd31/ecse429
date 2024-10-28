@@ -1,5 +1,4 @@
 Feature: Remove category from todo
-
 As a student,
 I want to remove a category from a todo
 So that I can maintain accurate and relevant classifications for my tasks.
@@ -27,7 +26,7 @@ So that I can maintain accurate and relevant classifications for my tasks.
     Given the category "<category>" exists
     Given the category is assigned to the todo
     When the student deletes the category
-    Then the thingifier app should return a response with status code"200"
+    Then the thingifier app should return a response with status code "200"
     Then the todo should not have the category "<todo>"
 
     Examples:

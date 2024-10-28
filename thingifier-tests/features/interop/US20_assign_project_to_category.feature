@@ -1,5 +1,4 @@
 Feature: Assign project to category
-
 As a student,
 I want to assign a project to a category
 So that I can organize related or similar projects.
@@ -39,7 +38,7 @@ So that I can organize related or similar projects.
     Given the project "<project>" exists
     When the student assigns the category to the project
     Then the thingifier app should return a response with status code "404"
-    Then the thingifier app should return an error message containing"Could not find thing matching value for id"
+    Then the thingifier app should return an error message containing "Could not find thing matching value for id"
 
     Examples:
       | project           | category |
