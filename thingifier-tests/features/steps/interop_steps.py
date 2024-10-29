@@ -60,12 +60,6 @@ def then_the_todo_should_be_created(context):
     assert res.status_code == 200
 
 
-@then('the thingifier app should return an error message containing "{string}"')
-def then_the_thingifier_app_should_return_an_error_message_containing(context, string):
-    # DELETE THIS
-    assert string in context.response.json()["errorMessages"][0]
-
-
 @when("the student assigns the project to the todo")
 def when_the_student_assigns_the_project_to_the_todo(context):
     todo_id = context.todo["id"]
@@ -176,13 +170,6 @@ def then_the_todo_should_not_have_the_category(context, string):
     for category in categories:
         if category["title"] == string:
             assert False
-
-
-@then('the thingifier app should return a response with status code "{statusCode}"')
-def step_the_thingifier_app_should_return_the_error_status(context, statusCode):
-    # DELETE THIS
-    print(context.response.status_code, "\n")
-    assert context.response.status_code == int(statusCode)
 
 
 @when("the student deletes the category")
