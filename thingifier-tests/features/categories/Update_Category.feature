@@ -11,7 +11,7 @@ So that I can correct a mistake or add more details.
 
   Scenario Outline: User updates all fields of a category (Normal Flow)
     When the user attempts to update the category with id "<id>" to have title "<newTitle>" and description "<newDescription>"
-    Then the thingifier app should return a response with status code 200
+    Then the thingifier app should return a response with status code "200"
     And the response should contain the updated category with title "<newTitle>" and description "<newDescription>"
 
     Examples:
@@ -20,7 +20,7 @@ So that I can correct a mistake or add more details.
 
   Scenario Outline: User updates select fields of a category (Alternate Flow)
     When the user attempts to update the category with id "<id>" to have title "<newTitle>"
-    Then the thingifier app should return a response with status code 200
+    Then the thingifier app should return a response with status code "200"
     And the response should contain the updated category with title "<newTitle>" and the original description "<description>"
 
     Examples:
@@ -29,7 +29,7 @@ So that I can correct a mistake or add more details.
 
   Scenario Outline: User attempts to update a category that does not exist (Error Flow)
     When the user attempts to update a non-existent category with id "<id>" to have title "<title>"
-    Then the thingifier app should return a response with status code 404
+    Then the thingifier app should return a response with status code "404"
     And the thingifier app should return an error message containing "<errorMessage>"
 
     Examples:

@@ -21,7 +21,7 @@ So that I can tag my todos and/or projects.
 
   Scenario Outline: User creates a category with missing fields (Alternate Flow)
     When the user attempts to create a category with only title "<title>"
-    Then the thingifier app should return a response with status code 201
+    Then the thingifier app should return a response with status code "201"
     And a category with title "<title>" should exist in the thingifier app
 
     Examples:
@@ -31,7 +31,7 @@ So that I can tag my todos and/or projects.
 
   Scenario Outline: User attempts to create a category with a pre-specified ID (Error Flow)
     When the user attempts to create a category with id "<id>", title "<title>" and description "<description>"
-    Then the thingifier app should return a response with status code 400
+    Then the thingifier app should return a response with status code "400"
     And the thingifier app should return an error message containing "<errorMessage>"
 
     Examples:

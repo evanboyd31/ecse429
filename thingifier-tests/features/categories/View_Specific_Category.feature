@@ -12,7 +12,7 @@ So that I can see its associated todos and projects.
 
   Scenario Outline: User views a specific category by id (Normal Flow)
     When the user attempts to view the category with id "<id>"
-    Then the thingifier app should return a response with status code 200
+    Then the thingifier app should return a response with status code "200"
     And the response should contain the category with title "<title>" and description "<description>"
 
     Examples:
@@ -22,7 +22,7 @@ So that I can see its associated todos and projects.
 
   Scenario Outline: User views a specific category by title (Alternate Flow)
     When the user attempts to view the category with title "<title>"
-    Then the thingifier app should return a response with status code 200
+    Then the thingifier app should return a response with status code "200"
     And the response should contain the category with title "<title>" and description "<description>"
 
     Examples:
@@ -32,7 +32,7 @@ So that I can see its associated todos and projects.
 
   Scenario Outline: User attempts to view a category that does not exist (Error Flow)
     When the user attempts to view a category with non-existent id "<id>"
-    Then the thingifier app should return a response with status code 404
+    Then the thingifier app should return a response with status code "404"
     And the thingifier app should return an error message containing "<errorMessage>"
 
     Examples:
