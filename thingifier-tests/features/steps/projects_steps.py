@@ -393,11 +393,6 @@ def step_then_response_status_code(context, statusCode):
     assert f"{context.response.status_code}" == statusCode
 
 
-@then("the error message {errorMessage} should be raised")
-def step_then_response_error_message(context, errorMessage):
-    assert context.response.json().get("errorMessages") == [errorMessage]
-
-
 @then("the project with title {title} should not exist in the system")
 def step_then_project_with_title_should_not_exist_in_the_system(context, title):
     # assert the original response gives 200

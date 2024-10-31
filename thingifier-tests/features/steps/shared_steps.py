@@ -13,6 +13,10 @@ def step_given_the_thingifier_application_is_running(context):
     except httpx.ConnectError:
         assert False
 
+@then('the thingifier app should return an error message containing {string}')
+def step_then(context, string):
+    assert context.response.json().get("errorMessages") == [string]
+
 def remove_all():
     response = httpx.get(url + "todos")
     assert response.status_code == 200
