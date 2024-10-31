@@ -15,7 +15,7 @@ def step_given_the_thingifier_application_is_running(context):
 
 @then('the thingifier app should return an error message containing {string}')
 def step_then(context, string):
-    assert context.response.json().get("errorMessages") == [string]
+    assert string in context.response.json().get("errorMessages")[0]
 
 def remove_all():
     response = httpx.get(url + "todos")
