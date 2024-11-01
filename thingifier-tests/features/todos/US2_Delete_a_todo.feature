@@ -12,7 +12,7 @@ So that I can remove assignments and project tasks that are no longer relevant.
       | ClassExercise-ECSE429 | false      | Decision Tables designing  |
 
   Scenario Outline: Student attempts to delete a todo (Normal Flow)
-    When the student sends a DELETE API request for the "/todos/:id" endpoint with the id of the todo with title "<title>" 
+    When the student sends a DELETE API requests for the "/todos/:id" endpoint with the id of the todo with title "<title>" 
     Then the thingifier app should return a response with status code "200"
     And the thingifier app should not contain a todo with title "<title>"
   Examples:

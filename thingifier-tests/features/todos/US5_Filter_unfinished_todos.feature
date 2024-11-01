@@ -30,9 +30,9 @@ So that I can quickly determine the assignments and project tasks that I need to
       | PartB-ECSE429         | User story testing        | &title=PartB-ECSE429         |
 
   Scenario Outline: Student attempts to filter unfinished todos with incorrect boolean value (Normal Flow)
-    When the student sends a GET API request for the "/todos?doneStatus=<faultyBoolean>" endpoint with the faulty boolean value "<faultyBoolean>"
-    Then the thingifier app should return an empty list of todosv
+    When the student sends a GET API request for the "/todos?doneStatus=faultyBoolean" endpoint with the faulty boolean value "<faultyBoolean>"
+    Then the thingifier app should return a response containing the list of todos "<todosList>"
   Examples:
-      | faultyBoolean  |
-      | False          |
-      | 0              |
+      | faultyBoolean  | todosList |
+      | False          |           |
+      | 0              |           |

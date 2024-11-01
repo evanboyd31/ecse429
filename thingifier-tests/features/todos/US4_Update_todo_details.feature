@@ -14,8 +14,8 @@ So that the todo reflects the updated information about the assignment or projec
   Scenario Outline: Student attempts to update the details of a todo with Json body (Normal Flow)
     When the student sends a POST API request for the "/todos/:id" endpoint with the id of the todo with title "<originalTitle>", and with json body containing title "<title>", and description "<description>"
     Then the thingifier app should return a response with status code "200"
-    And the thingifier app should return a response containing the updated todo with title "<title>" done status "<doneStatus>" and description "<description>"
-    Then the thingifier app should contain the new todo with title "<title>" done status "<doneStatus>" and description "<description>"
+    And the thingifier app should return a response containing the todo with title "<title>" done status "<doneStatus>" and description "<description>"
+    Then the thingifier app should contain the todo with title "<title>" done status "<doneStatus>" and description "<description>"
   Examples:
       | originalTitle         | title       | doneStatus | description               |
       | A1-ECSE316            | DNS-ECSE316 | true       | New description           |
@@ -25,8 +25,8 @@ So that the todo reflects the updated information about the assignment or projec
   Scenario Outline: Student attempts to update the details of a todo with xml body (Alternative Flow)
     When the student sends a POST API request for the "/todos/:id" endpoint with the id of the todo with title "<originalTitle>", and with xml body containing title "<title>", and description "<description>"
     Then the thingifier app should return a response with status code "200"
-    And the thingifier app should return a response containing the updated todo with title "<title>" done status "<doneStatus>" and description "<description>"
-    Then the thingifier app should contain the new todo with title "<title>" done status "<doneStatus>" and description "<description>"
+    And the thingifier app should return a response containing the todo with title "<title>" done status "<doneStatus>" and description "<description>"
+    Then the thingifier app should contain the todo with title "<title>" done status "<doneStatus>" and description "<description>"
   Examples:
       | originalTitle         | title       | doneStatus | description               |
       | A1-ECSE316            | DNS-ECSE316 | true       | New description           |
