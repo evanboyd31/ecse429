@@ -41,6 +41,10 @@ jobs:
         sleep 5
         poetry run pytest -s -v --random-order
       continue-on-error: true
+    - name: Run behave tests
+      run: |
+        cd thingifier-tests
+        poetry run behave
     - uses: actions/checkout@v4
     - name: Format Code
       run: |
