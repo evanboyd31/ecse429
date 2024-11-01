@@ -14,7 +14,7 @@ So that I can quickly determine the assignments and project tasks that I need to
 
   Scenario Outline: Student attempts to filter unfinished todos (Normal Flow)
     When the student sends a GET API request for the "/todos?doneStatus=false" endpoint
-    Then the thingifier app should return a response with status code "200"
+    Then the thingifier app should return the error status "200"
     And the thingifier app should return a response containing the list of todos "<todosList>"
   Examples:
       | todosList                           |
@@ -22,7 +22,7 @@ So that I can quickly determine the assignments and project tasks that I need to
   
   Scenario Outline: Student attempts to filter unfinished todos with additional query params (Alternative Flow)
     When the student sends a GET API request for the "/todos?doneStatus=false" endpoint with the additional query parameters "<queryParams>"
-    Then the thingifier app should return a response with status code "200"
+    Then the thingifier app should return the error status "200"
     And the thingifier app should return a response containing the unfinished todo with title "<title>" and description "<description>"
   Examples:
       | title                 | description               | queryParams                  |

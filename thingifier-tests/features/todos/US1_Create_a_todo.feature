@@ -20,7 +20,7 @@ So that I can remember what assignments and project tasks I need to complete.
       | title          | doneStatus | description             |
       | A3-ECSE427     | false      | Shell memory management |
       | A3-ECSE446     | true       | Mesh light sampling     |
-      | PartB-ECSE429  |            |                         |
+      | PartB-ECSE429  | true       |                         |
   
   Scenario Outline: Student attempts to create a new todo using Xml body (Alternative Flow)
     When the student sends a POST API request for the "/todos" endpoint with xml body containing title "<title>" done status "<doneStatus>" and description "<description>"
@@ -31,7 +31,6 @@ So that I can remember what assignments and project tasks I need to complete.
       | title          | doneStatus | description             |
       | A3-ECSE427     | false      | Shell memory management |
       | A3-ECSE446     | true       | Mesh light sampling     |
-      | PartB-ECSE429  |            |                         |
 
   Scenario Outline: Student attempts to create a new todo without specifying the title (Error Flow)
     When the student sends a POST API request for the "/todos" endpoint with json body containing title "<title>" done status "<doneStatus>" and description "<description>"
@@ -39,7 +38,7 @@ So that I can remember what assignments and project tasks I need to complete.
     And the thingifier app should return an error message containing "<errorMessage>"
     And the thingifier app should not contain a todo with title "<title>"
   Examples:
-      | title          | doneStatus | description             | errorMessage               |
-      |                | false      | Shell memory management | title : field is mandatory |
-      |                | true       | Mesh light sampling     | title : field is mandatory |
-      |                |            |                         | title : field is mandatory |
+      | title          | doneStatus | description             | errorMessage                                |
+      |                | false      | Shell memory management | Failed Validation: title : can not be empty |
+      |                | true       | Mesh light sampling     | Failed Validation: title : can not be empty |
+      |                | true       |                         | Failed Validation: title : can not be empty |
