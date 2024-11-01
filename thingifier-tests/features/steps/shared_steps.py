@@ -39,3 +39,7 @@ def remove_all():
 @then('the thingifier app should return the error status "{statusCode}"')
 def step_thingifier_app_should_return_the_error_status(context, statusCode):
     assert context.response.status_code == int(statusCode)
+
+@then('the thingifier app should return a response with status code "{statusCode}"')
+def step_thingifier_app_should_return_a_response_with_status_code(context, statusCode):
+    assert context.response.status_code == int(statusCode)
