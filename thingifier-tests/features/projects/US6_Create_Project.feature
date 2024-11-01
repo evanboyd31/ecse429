@@ -19,11 +19,11 @@ As a user, I want to create a project so that I can keep track of related tasks.
 
         Examples:
             | title | completed | active | description | project                  |
-            | N/A   | N/A       | N/A    | N/A         | ,false,false,            |
-            | title | N/A       | N/A    | N/A         | title,false,false,       |
-            | N/A   | true      | N/A    | N/A         | ,true,false,             |
-            | N/A   | N/A       | true   | N/A         | ,false,true,             |
-            | N/A   | N/A       | N/A    | description | ,false,false,description |
+            |       |           |        |             | ,false,false,            |
+            | title |           |        |             | title,false,false,       |
+            |       | true      |        |             | ,true,false,             |
+            |       |           | true   |             | ,false,true,             |
+            |       |           |        | description | ,false,false,description |
 
     Scenario Outline: User attempts to create a project with a pre-specified ID (Error Flow)
         When the user attempts to create a project by specifying id <projectId>, title <title>, completed <completed>, active <active>, and description <description>
