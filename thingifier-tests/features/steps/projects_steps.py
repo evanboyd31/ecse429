@@ -1,13 +1,18 @@
 import httpx
 import json
 import xmltodict
-
-from behave import given, when, then
+import parse
+from behave import given, when, then, register_type
 
 
 projects_url = "http://localhost:4567/projects"
 XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
 
+@parse.with_pattern(r'.*')
+def parse_nullable_string(text):
+    return text
+
+register_type(NullableString=parse_nullable_string)
 
 def assert_project(expected, actual, compare_id=False):
 
@@ -51,16 +56,16 @@ def create_project_JSON(title, completed, active, description, project_id=None):
 
     # all fields are optional, so only specify if necessary
 
-    if project_id and project_id != "N/A":
+    if project_id and project_id != "":
         project.update({"id": project_id})
 
-    if title and title != "N/A":
+    if title and title != "":
         project.update({"title": title})
 
-    if description and description != "N/A":
+    if description and description != "":
         project.update({"description": description})
 
-    if completed and completed != "N/A":
+    if completed and completed != "":
         project.update(
             {
                 "completed": (
@@ -71,7 +76,7 @@ def create_project_JSON(title, completed, active, description, project_id=None):
             }
         )
 
-    if active and active != "N/A":
+    if active and active != "":
         project.update(
             {
                 "active": (
@@ -235,7 +240,7 @@ def step_when_create_project(context, title, completed, active, description):
 
 
 @when(
-    "the user creates a project with missing fields by specifying title {title}, completed {completed}, active {active}, and description {description}"
+        "the user creates a project with missing fields by specifying title {title:NullableString}, completed {completed:NullableString}, active {active:NullableString}, and description {description:NullableString}"
 )
 def step_when_create_project(context, title, completed, active, description):
     create_project(
@@ -391,11 +396,6 @@ def step_then_project_that_had_title_has_new_fields(context, title, project):
 @then("the response should have status code {statusCode}")
 def step_then_response_status_code(context, statusCode):
     assert f"{context.response.status_code}" == statusCode
-
-
-@then("the error message {errorMessage} should be raised")
-def step_then_response_error_message(context, errorMessage):
-    assert context.response.json().get("errorMessages") == [errorMessage]
 
 
 @then("the project with title {title} should not exist in the system")

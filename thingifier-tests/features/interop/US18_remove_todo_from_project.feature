@@ -1,12 +1,11 @@
 Feature: Remove todo from project
-
 As a student,
 I want to remove a todo from a project
 So that I can keep my project task list current and focused on relevant activities.
 
   Background:
     Given the thingifier application is running
-    Given the thingifier application has no data
+    Given no objects exist in the thingifier app
 
   Scenario Outline: Student removes an existing todo from an existing project (Normal Flow)
     Given the todo "<todo>" exists
@@ -39,13 +38,12 @@ So that I can keep my project task list current and focused on relevant activiti
 
   Scenario Outline: Student deletes a non-existent todo from the project (Error Flow)
     Given the project "<project>" exists
-    Given the todo "<todo>" does not exist
-    When the student assigns the project to the todo
+    When the student deletes a non-existent todo from the project
     Then the thingifier app should return a response with status code "404"
-    Then the thingifier app should return an error message containing"Could not find any instances with"
+    Then the thingifier app should return an error message containing "Could not find any instances with"
 
     Examples:
-      | todo          | project            |
-      | Watch a movie | Cultural Learning  |
-      | Do nothing    | Burnout Reduction  |
-      | Sleep         | Health Improvement |
+      | todo          |
+      | Watch a movie |
+      | Do nothing    |
+      | Sleep         |
