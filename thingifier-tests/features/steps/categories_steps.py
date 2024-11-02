@@ -3,7 +3,7 @@ import parse
 import xmltodict
 
 from behave import given, when, then
-from shared_steps import remove_all, url, XML_HEADERS
+from shared_steps import remove_all, url
 
 categories_url = f'{url}categories'
 
@@ -164,7 +164,7 @@ def when_view_category_by_id(context, title):
 def when_view_category_by_title(context, title):
     category_id = get_category_id(title)
     assert category_id is not None, f"Category with title '{title}' not found"
-    context.response = httpx.get(f"{categories_url}/{category_id}")
+    context.response = httpx.get(f"{categories_url}?title={title}")
 
 @when('the user attempts to view a category with non-existent id "{id}"')
 def when_view_non_existent_category(context, id):
