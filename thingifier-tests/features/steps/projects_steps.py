@@ -8,11 +8,14 @@ from behave import given, when, then, register_type
 projects_url = "http://localhost:4567/projects"
 XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
 
-@parse.with_pattern(r'.*')
+
+@parse.with_pattern(r".*")
 def parse_nullable_string(text):
     return text
 
+
 register_type(NullableString=parse_nullable_string)
+
 
 def assert_project(expected, actual, compare_id=False):
 
@@ -240,7 +243,7 @@ def step_when_create_project(context, title, completed, active, description):
 
 
 @when(
-        "the user creates a project with missing fields by specifying title {title:NullableString}, completed {completed:NullableString}, active {active:NullableString}, and description {description:NullableString}"
+    "the user creates a project with missing fields by specifying title {title:NullableString}, completed {completed:NullableString}, active {active:NullableString}, and description {description:NullableString}"
 )
 def step_when_create_project(context, title, completed, active, description):
     create_project(
