@@ -55,4 +55,5 @@ jobs:
         git add .
         git commit -m "Formatted code with black"
         git push
+      continue-on-error: true
 
