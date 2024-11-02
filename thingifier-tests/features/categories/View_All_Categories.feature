@@ -5,7 +5,7 @@ So that I can evaluate the organization of my todos and projects.
 
   Background:
     Given the thingifier application is running
-    And no objects exist other than the following categories:
+    And no objects exist in the thingifier app other than the following categories:
       | title              | description             |
       | School             | School-related items    |
       | Work               | Work-related items      |
