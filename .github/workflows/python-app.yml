@@ -44,7 +44,7 @@ jobs:
     - name: Run behave tests
       run: |
         cd thingifier-tests
-        poetry run behave
+        poetry run python random_behave.py
     - uses: actions/checkout@v4
     - name: Format Code
       run: |
