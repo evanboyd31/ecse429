@@ -2,7 +2,7 @@ from behave import given, when, then
 import httpx
 
 url: str = "http://localhost:4567/"
-
+XML_HEADERS = {"Content-Type": "application/xml", "Accept": "application/xml"}
 
 @given("the thingifier application is running")
 def step_given_the_thingifier_application_is_running(context):
