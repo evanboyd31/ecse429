@@ -1,5 +1,5 @@
 Feature: View Specific Category
-As a user,
+As a student,
 I want to view a specific category 
 So that I can see its associated todos and projects.
 

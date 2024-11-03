@@ -1,5 +1,5 @@
 Feature: Delete Project
-As a user, I want to delete a project so that I can remove projects that are no longer relevant.
+As a student, I want to delete a project so that I can remove projects that are no longer relevant.
 
     Background:
         Given the thingifier application is running

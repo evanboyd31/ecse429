@@ -1,5 +1,5 @@
 Feature: View All Projects
-As a user, I want to view all projects so that I can see the projects I need to manage.
+As a student, I want to view all projects so that I can see the projects I need to manage.
 
     Background:
         Given the thingifier application is running

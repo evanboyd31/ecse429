@@ -1,5 +1,5 @@
 Feature: Update Category
-As a user,
+As a student,
 I want to update the details of a category
 So that I can correct a mistake or add more details.
 

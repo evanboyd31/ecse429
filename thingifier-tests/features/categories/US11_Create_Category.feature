@@ -1,6 +1,6 @@
 Feature: Create Category
 
-As a user,
+As a student,
 I want to create a category 
 So that I can tag my todos and/or projects.
 

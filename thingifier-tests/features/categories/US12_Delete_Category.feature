@@ -1,5 +1,5 @@
 Feature: Delete Category
-As a user,
+As a student,
 I want to delete a category 
 So that I can remove unnecessary categories.
 

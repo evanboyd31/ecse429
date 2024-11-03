@@ -1,5 +1,5 @@
 Feature: Modify Project
-As a user, I want to modify a project so that the project reflects changing requirements over time.
+As a student, I want to modify a project so that the project reflects changing requirements over time.
 
     Background:
         Given the thingifier application is running

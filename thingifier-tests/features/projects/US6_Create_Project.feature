@@ -1,5 +1,5 @@
 Feature: Create Project
-As a user, I want to create a project so that I can keep track of related tasks.
+As a student, I want to create a project so that I can keep track of related tasks.
 
     Background:
         Given the thingifier application is running

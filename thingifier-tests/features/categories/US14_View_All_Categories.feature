@@ -1,5 +1,5 @@
 Feature: View All Categories
-As a user,
+As a student,
 I want to view all of my categories
 So that I can evaluate the organization of my todos and projects.
 

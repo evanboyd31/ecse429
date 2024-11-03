@@ -1,5 +1,5 @@
 Feature: View All Active Projects
-As a user, I want to view all active projects so that I can keep track of the progress of on-going projects.
+As a student, I want to view all active projects so that I can keep track of the progress of on-going projects.
 
     Background:
         Given the thingifier application is running
