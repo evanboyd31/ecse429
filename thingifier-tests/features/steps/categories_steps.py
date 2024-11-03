@@ -224,9 +224,16 @@ def then_response_contains_xml_array(context):
 @then("the response should contain an empty array")
 def then_response_contains_empty_array(context):
     response_json = context.response.json()
+    print(response_json, "\n")
     assert (
-        response_json["categories"][0]["categories"] == []
+        response_json["categories"] == []
+        or response_json["categories"][0]["categories"] == []
     ), f"Expected an empty array, but got {response_json['categories']}"
+
+
+@given("all categories have been deleted from the system")
+def step_given_all_categories_have_been_deleted_from_the_system(context):
+    remove_all()
 
 
 # -------------------------- VIEW SPECIFIC
