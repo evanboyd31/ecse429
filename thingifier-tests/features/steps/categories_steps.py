@@ -38,7 +38,7 @@ def step_given(context):
 
 
 @when(
-    'the user attempts to create a category with title "{title}" and description "{description}"'
+    'the student attempts to create a category with title "{title}" and description "{description}"'
 )
 def when_create_category_with_title_and_description(context, title, description):
     response = create_category(title, description)
@@ -60,7 +60,7 @@ def then_category_with_title_and_description_should_exist(context, title, descri
     ), f"Category with title '{title}' and description '{description}' not found"
 
 
-@when('the user attempts to create a category with only title "{title}"')
+@when('the student attempts to create a category with only title "{title}"')
 def when_create_category_with_only_title(context, title):
     response = httpx.post(categories_url, json={"title": title})
     context.response = response
@@ -75,7 +75,7 @@ def then_category_with_title_should_exist(context, title):
 
 
 @when(
-    'the user attempts to create a category with id "{id}", title "{title}" and description "{description}"'
+    'the student attempts to create a category with id "{id}", title "{title}" and description "{description}"'
 )
 def when_create_category_with_id_title_and_description(context, id, title, description):
     response = httpx.post(
@@ -88,7 +88,7 @@ def when_create_category_with_id_title_and_description(context, id, title, descr
 
 
 @when(
-    'the user attempts to delete using only the id of the category with title "{title}"'
+    'the student attempts to delete using only the id of the category with title "{title}"'
 )
 def when_delete_category_by_title(context, title):
     category_id = get_category_id(title)
@@ -97,7 +97,7 @@ def when_delete_category_by_title(context, title):
 
 
 @when(
-    'the user attempts to delete using the id of the category with title "{title}" and extra query parameters "{body}"'
+    'the student attempts to delete using the id of the category with title "{title}" and extra query parameters "{body}"'
 )
 def when_delete_category_by_title_with_params(context, title, body):
     category_id = get_category_id(title)
@@ -105,7 +105,7 @@ def when_delete_category_by_title_with_params(context, title, body):
     context.response = httpx.delete(f"{categories_url}/{category_id}", params=body)
 
 
-@when('the user attempts to delete using a non-existent category id "{id}"')
+@when('the student attempts to delete using a non-existent category id "{id}"')
 def when_delete_non_existent_category(context, id):
     context.response = httpx.delete(f"{categories_url}/{id}")
 
@@ -120,7 +120,7 @@ def then_category_should_not_exist(context, title):
 
 
 @when(
-    'the user attempts to update the category with title "{title}" to have title "{newTitle}" and description "{newDescription}"'
+    'the student attempts to update the category with title "{title}" to have title "{newTitle}" and description "{newDescription}"'
 )
 def when_update_category_all_fields(context, title, newTitle, newDescription):
     category_id = get_category_id(title)
@@ -132,7 +132,7 @@ def when_update_category_all_fields(context, title, newTitle, newDescription):
 
 
 @when(
-    'the user attempts to update the category with title "{title}" to have title "{newTitle}"'
+    'the student attempts to update the category with title "{title}" to have title "{newTitle}"'
 )
 def when_update_category_title_only(context, title, newTitle):
     category_id = get_category_id(title)
@@ -143,7 +143,7 @@ def when_update_category_title_only(context, title, newTitle):
 
 
 @when(
-    'the user attempts to update a non-existent category with id "{id}" to have title "{title}"'
+    'the student attempts to update a non-existent category with id "{id}" to have title "{title}"'
 )
 def when_update_non_existent_category(context, id, title):
     context.response = httpx.post(f"{categories_url}/{id}", json={"title": title})
@@ -181,17 +181,17 @@ def then_response_contains_updated_category_title_only(context, newTitle, descri
 # -------------------------- VIEW ALL
 
 
-@when("the user attempts to view all categories in JSON format")
+@when("the student attempts to view all categories in JSON format")
 def when_view_all_categories_json(context):
     context.response = httpx.get(categories_url, headers={"Accept": "application/json"})
 
 
-@when("the user attempts to view all categories in XML format")
+@when("the student attempts to view all categories in XML format")
 def when_view_all_categories_xml(context):
     context.response = httpx.get(categories_url, headers={"Accept": "application/xml"})
 
 
-@when("the user attempts to view all categories")
+@when("the student attempts to view all categories")
 def when_view_all_categories(context):
     context.response = httpx.get(categories_url)
 
@@ -240,7 +240,7 @@ def step_given_all_categories_have_been_deleted_from_the_system(context):
 
 
 @when(
-    'the user attempts to view a category with the id of the category with title "{title}"'
+    'the student attempts to view a category with the id of the category with title "{title}"'
 )
 def when_view_category_by_id(context, title):
     category_id = get_category_id(title)
@@ -248,14 +248,14 @@ def when_view_category_by_id(context, title):
     context.response = httpx.get(f"{categories_url}/{category_id}")
 
 
-@when('the user attempts to view a category with title "{title}"')
+@when('the student attempts to view a category with title "{title}"')
 def when_view_category_by_title(context, title):
     category_id = get_category_id(title)
     assert category_id is not None, f"Category with title '{title}' not found"
     context.response = httpx.get(f"{categories_url}?title={title}")
 
 
-@when('the user attempts to view a category with non-existent id "{id}"')
+@when('the student attempts to view a category with non-existent id "{id}"')
 def when_view_non_existent_category(context, id):
     context.response = httpx.get(f"{categories_url}/{id}")
 

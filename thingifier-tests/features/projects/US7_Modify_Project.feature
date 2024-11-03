@@ -8,8 +8,8 @@ As a student, I want to modify a project so that the project reflects changing r
             | Project Title #1 | false     | true   | The best project        |
             | Project Title #2 | true      | false  | The second best project |
 
-    Scenario Outline: User updates a project with all fields using POST /projects/:id (Normal Flow)
-        When the user updates the project with title <title> by specifying new title <newTitle>, completed <newCompleted>, active <newActive>, and description <newDescription> using POST /projects/:id
+    Scenario Outline: Student updates a project with all fields using POST /projects/:id (Normal Flow)
+        When the student updates the project with title <title> by specifying new title <newTitle>, completed <newCompleted>, active <newActive>, and description <newDescription> using POST /projects/:id
         Then the project that had title <title> should have the new fields <project>
 
         Examples:
@@ -17,8 +17,8 @@ As a student, I want to modify a project so that the project reflects changing r
             | Project Title #1 | New Project Title #1 | true         | false     | No longer the best project :( | New Project Title #1,true,false,No longer the best project :( |
             | Project Title #2 | New Project Title #2 | false        | true      | The new best project! :)      | New Project Title #2,false,true,The new best project! :)      |
 
-    Scenario Outline: User updates a project with all fields using PUT /projects/:id (Alternate Flow)
-        When the user updates the project with title <title> by specifying new title <newTitle>, completed <newCompleted>, active <newActive>, and description <newDescription> using PUT /projects/:id
+    Scenario Outline: Student updates a project with all fields using PUT /projects/:id (Alternate Flow)
+        When the student updates the project with title <title> by specifying new title <newTitle>, completed <newCompleted>, active <newActive>, and description <newDescription> using PUT /projects/:id
         Then the project that had title <title> should have the new fields <project>
 
         Examples:
@@ -26,8 +26,8 @@ As a student, I want to modify a project so that the project reflects changing r
             | Project Title #1 | New Project Title #1 | true         | false     | No longer the best project :( | New Project Title #1,true,false,No longer the best project :( |
             | Project Title #2 | New Project Title #2 | false        | true      | The new best project! :)      | New Project Title #2,false,true,The new best project! :)      |
 
-    Scenario Outline: User attempts to update a project with data that is the incorrect type (Error Flow)
-        When the user updates the project with title <title> by specifying new title <newTitle>, completed <newCompleted>, active <newActive>, and description <newDescription> using POST /projects/:id
+    Scenario Outline: Student attempts to update a project with data that is the incorrect type (Error Flow)
+        When the student updates the project with title <title> by specifying new title <newTitle>, completed <newCompleted>, active <newActive>, and description <newDescription> using POST /projects/:id
         Then the response should have status code <statusCode>
         And the thingifier app should return an error message containing "<errorMessage>"
 

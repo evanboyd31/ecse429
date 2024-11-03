@@ -230,7 +230,7 @@ def step_given_project_has_been_deleted_from_system(context, project2):
 
 
 @when(
-    "the user creates a project by specifying title {title}, completed {completed}, active {active}, and description {description}"
+    "the student creates a project by specifying title {title}, completed {completed}, active {active}, and description {description}"
 )
 def step_when_create_project(context, title, completed, active, description):
     create_project(
@@ -243,7 +243,7 @@ def step_when_create_project(context, title, completed, active, description):
 
 
 @when(
-    "the user creates a project with missing fields by specifying title {title:NullableString}, completed {completed:NullableString}, active {active:NullableString}, and description {description:NullableString}"
+    "the student creates a project with missing fields by specifying title {title:NullableString}, completed {completed:NullableString}, active {active:NullableString}, and description {description:NullableString}"
 )
 def step_when_create_project(context, title, completed, active, description):
     create_project(
@@ -256,7 +256,7 @@ def step_when_create_project(context, title, completed, active, description):
 
 
 @when(
-    "the user attempts to create a project by specifying id {projectId}, title {title}, completed {completed}, active {active}, and description {description}"
+    "the student attempts to create a project by specifying id {projectId}, title {title}, completed {completed}, active {active}, and description {description}"
 )
 def step_when_create_project_with_id(
     context, projectId, title, completed, active, description
@@ -271,8 +271,8 @@ def step_when_create_project_with_id(
     )
 
 
-@when("the user deletes project with title {title}")
-def step_when_user_deletes_project_with_title(context, title):
+@when("the student deletes project with title {title}")
+def step_when_student_deletes_project_with_title(context, title):
     project_id = context.title_id_map.get(title, -1)
     response = httpx.delete(f"{projects_url}/{project_id}")
 
@@ -280,9 +280,9 @@ def step_when_user_deletes_project_with_title(context, title):
 
 
 @when(
-    "the user sends extra query parameters {parameters} with values {values} when deleting project with title {title}"
+    "the student sends extra query parameters {parameters} with values {values} when deleting project with title {title}"
 )
-def step_when_the_user_deletes_project_with_id_and_extra_query_params(
+def step_when_the_student_deletes_project_with_id_and_extra_query_params(
     context, title, parameters, values
 ):
     project_id = context.title_id_map.get(title, -1)
@@ -301,9 +301,9 @@ def step_when_the_user_deletes_project_with_id_and_extra_query_params(
 
 
 @when(
-    "the user updates the project with title {title} by specifying new title {newTitle}, completed {newCompleted}, active {newActive}, and description {newDescription} using POST /projects/:id"
+    "the student updates the project with title {title} by specifying new title {newTitle}, completed {newCompleted}, active {newActive}, and description {newDescription} using POST /projects/:id"
 )
-def step_when_user_updates_project_using_post(
+def step_when_student_updates_project_using_post(
     context, title, newTitle, newCompleted, newActive, newDescription
 ):
     project_id = context.title_id_map.get(title)
@@ -319,9 +319,9 @@ def step_when_user_updates_project_using_post(
 
 
 @when(
-    "the user updates the project with title {title} by specifying new title {newTitle}, completed {newCompleted}, active {newActive}, and description {newDescription} using PUT /projects/:id"
+    "the student updates the project with title {title} by specifying new title {newTitle}, completed {newCompleted}, active {newActive}, and description {newDescription} using PUT /projects/:id"
 )
-def step_when_user_updates_project_using_post(
+def step_when_student_updates_project_using_post(
     context, title, newTitle, newCompleted, newActive, newDescription
 ):
     project_id = context.title_id_map.get(title)
@@ -336,26 +336,26 @@ def step_when_user_updates_project_using_post(
     )
 
 
-@when("the user attempts to view all projects in JSON format")
-def step_when_user_views_all_projects_in_JSON(context):
+@when("the student attempts to view all projects in JSON format")
+def step_when_student_views_all_projects_in_JSON(context):
     response = httpx.get(f"{projects_url}")
     context.response = response
 
 
-@when("the user attempts to view all projects in XML format")
-def step_when_user_views_all_projects_in_XML(context):
+@when("the student attempts to view all projects in XML format")
+def step_when_student_views_all_projects_in_XML(context):
     response = httpx.get(f"{projects_url}", headers=XML_HEADERS)
     context.response = response
 
 
-@when("the user attempts to view all active projects in JSON format")
-def step_when_user_views_all_active_projects_in_JSON(context):
+@when("the student attempts to view all active projects in JSON format")
+def step_when_student_views_all_active_projects_in_JSON(context):
     response = httpx.get(f"{projects_url}?active=true")
     context.response = response
 
 
-@when("the user attempts to view all active projects in XML format")
-def step_when_user_views_all_active_projects_in_JSON(context):
+@when("the student attempts to view all active projects in XML format")
+def step_when_student_views_all_active_projects_in_JSON(context):
     response = httpx.get(f"{projects_url}?active=true", headers=XML_HEADERS)
     context.response = response
 
@@ -423,8 +423,8 @@ def step_then_error_message_indicating_project_not_found(context):
     assert "Could not find any instances with projects/" in errorMessage
 
 
-@then("the user should see the projects {project1} and {project2} in the JSON response")
-def step_then_user_sees_projects_in_JSON_response(context, project1, project2):
+@then("the student should see the projects {project1} and {project2} in the JSON response")
+def step_then_student_sees_projects_in_JSON_response(context, project1, project2):
     projects = context.response.json().get("projects")
 
     project1_json = json.loads(project1)
@@ -436,8 +436,8 @@ def step_then_user_sees_projects_in_JSON_response(context, project1, project2):
     )
 
 
-@then("the user should see the projects {project1} and {project2} in the XML response")
-def step_then_the_user_sees_projects_in_XML_response(context, project1, project2):
+@then("the student should see the projects {project1} and {project2} in the XML response")
+def step_then_the_student_sees_projects_in_XML_response(context, project1, project2):
 
     response_dict = xmltodict.parse(context.response.content)
     projects = response_dict.get("projects").get("project")
@@ -454,15 +454,15 @@ def step_then_the_user_sees_projects_in_XML_response(context, project1, project2
     )
 
 
-@then("the user should receive an empty JSON array")
-def step_then_the_user_receives_empty_JSON_array(context):
+@then("the student should receive an empty JSON array")
+def step_then_the_student_receives_empty_JSON_array(context):
     assert context.response.json().get("projects") == []
 
 
 @then(
-    "the user should not see the projects {project1} and {project2} in the JSON response"
+    "the student should not see the projects {project1} and {project2} in the JSON response"
 )
-def step_then_the_user_should_not_see_project1_project2(context, project1, project2):
+def step_then_the_student_should_not_see_project1_project2(context, project1, project2):
     projects = context.response.json().get("projects")
     assert len(projects) == 0
 
@@ -486,8 +486,8 @@ def step_then_the_user_should_not_see_project1_project2(context, project1, proje
     assert project2_json not in projects
 
 
-@then("the user should see the project {project2} in the JSON response")
-def step_then_user_sees_project2_JSON(context, project2):
+@then("the student should see the project {project2} in the JSON response")
+def step_then_student_sees_project2_JSON(context, project2):
     projects = context.response.json().get("projects")
 
     project2_json = json.loads(project2)
@@ -501,8 +501,8 @@ def step_then_user_sees_project2_JSON(context, project2):
     assert_project_is_in_response(projects=projects, project=project2_json)
 
 
-@then("the user should see the project {project2} in the XML response")
-def step_then_user_sees_project2_XML(context, project2):
+@then("the student should see the project {project2} in the XML response")
+def step_then_student_sees_project2_XML(context, project2):
     response_dict = xmltodict.parse(context.response.content)
     projects = response_dict.get("projects").get("project")
 
@@ -527,8 +527,8 @@ def step_then_user_sees_project2_XML(context, project2):
     assert_project_is_in_response(projects=projects, project=project2_dict)
 
 
-@then("the user should not see the project {project1} in the JSON response")
-def step_then_user_does_not_see_project1_JSON(context, project1):
+@then("the student should not see the project {project1} in the JSON response")
+def step_then_student_does_not_see_project1_JSON(context, project1):
     projects = context.response.json().get("projects")
 
     project1_json = json.loads(project1)
@@ -543,8 +543,8 @@ def step_then_user_does_not_see_project1_JSON(context, project1):
         assert not is_identical_project(project1=project, project2=project1_json)
 
 
-@then("the user should not see the project {project1} in the XML response")
-def step_then_user_does_not_see_project1(context, project1):
+@then("the student should not see the project {project1} in the XML response")
+def step_then_student_does_not_see_project1(context, project1):
     response_dict = xmltodict.parse(context.response.content)
     projects = response_dict.get("projects").get("project")
 

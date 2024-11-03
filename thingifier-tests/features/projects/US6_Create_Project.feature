@@ -4,8 +4,8 @@ As a student, I want to create a project so that I can keep track of related tas
     Background:
         Given the thingifier application is running
 
-    Scenario Outline: User creates a project with all fields (Normal Flow)
-        When the user creates a project by specifying title <title>, completed <completed>, active <active>, and description <description>
+    Scenario Outline: Student creates a project with all fields (Normal Flow)
+        When the student creates a project by specifying title <title>, completed <completed>, active <active>, and description <description>
         Then the project <project> should be created
 
         Examples:
@@ -13,8 +13,8 @@ As a student, I want to create a project so that I can keep track of related tas
             | Project Title   | false     | true   | project1    | Project Title,false,true,project1   |
             | Different Title | true      | false  | project2    | Different Title,true,false,project2 |
 
-    Scenario Outline: User creates a project with missing fields (Alternate Flow)
-        When the user creates a project with missing fields by specifying title <title>, completed <completed>, active <active>, and description <description>
+    Scenario Outline: Student creates a project with missing fields (Alternate Flow)
+        When the student creates a project with missing fields by specifying title <title>, completed <completed>, active <active>, and description <description>
         Then the project <project> should be created
 
         Examples:
@@ -25,8 +25,8 @@ As a student, I want to create a project so that I can keep track of related tas
             |       |           | true   |             | ,false,true,             |
             |       |           |        | description | ,false,false,description |
 
-    Scenario Outline: User attempts to create a project with a pre-specified ID (Error Flow)
-        When the user attempts to create a project by specifying id <projectId>, title <title>, completed <completed>, active <active>, and description <description>
+    Scenario Outline: Student attempts to create a project with a pre-specified ID (Error Flow)
+        When the student attempts to create a project by specifying id <projectId>, title <title>, completed <completed>, active <active>, and description <description>
         Then the response should have status code <statusCode>
         And the thingifier app should return an error message containing "<errorMessage>"
 
