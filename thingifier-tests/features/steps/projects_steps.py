@@ -423,7 +423,9 @@ def step_then_error_message_indicating_project_not_found(context):
     assert "Could not find any instances with projects/" in errorMessage
 
 
-@then("the student should see the projects {project1} and {project2} in the JSON response")
+@then(
+    "the student should see the projects {project1} and {project2} in the JSON response"
+)
 def step_then_student_sees_projects_in_JSON_response(context, project1, project2):
     projects = context.response.json().get("projects")
 
@@ -436,7 +438,9 @@ def step_then_student_sees_projects_in_JSON_response(context, project1, project2
     )
 
 
-@then("the student should see the projects {project1} and {project2} in the XML response")
+@then(
+    "the student should see the projects {project1} and {project2} in the XML response"
+)
 def step_then_the_student_sees_projects_in_XML_response(context, project1, project2):
 
     response_dict = xmltodict.parse(context.response.content)
