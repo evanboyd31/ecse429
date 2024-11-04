@@ -9,8 +9,8 @@ So that I can remove unnecessary categories.
       | id   | title               | description          |
       | 1    | School Assignments  | List of assignments  |
 
-  Scenario Outline: User deletes a category using DELETE /categories/{id} (Normal Flow)
-    When the user attempts to delete using only the id of the category with title "<title>"
+  Scenario Outline: Student deletes a category using DELETE /categories/{id} (Normal Flow)
+    When the student attempts to delete using only the id of the category with title "<title>"
     Then the thingifier app should return a response with status code "200"
     And category with title "<title>" should no longer exist in the thingifier app
 
@@ -18,8 +18,8 @@ So that I can remove unnecessary categories.
       | title               | 
       | School Assignments  | 
 
-  Scenario Outline: User deletes a category with extra query parameters (Alternate Flow)
-    When the user attempts to delete using the id of the category with title "<title>" and extra query parameters "<body>"
+  Scenario Outline: Student deletes a category with extra query parameters (Alternate Flow)
+    When the student attempts to delete using the id of the category with title "<title>" and extra query parameters "<body>"
     Then the thingifier app should return a response with status code "200"
     And category with title "<title>" should no longer exist in the thingifier app
 
@@ -27,8 +27,8 @@ So that I can remove unnecessary categories.
       | title               | body                     |
       | School Assignments  | { "extra": "parameter" } |
 
-  Scenario Outline: User attempts to delete a category that does not exist (Error Flow)
-    When the user attempts to delete using a non-existent category id "<id>"
+  Scenario Outline: Student attempts to delete a category that does not exist (Error Flow)
+    When the student attempts to delete using a non-existent category id "<id>"
     Then the thingifier app should return a response with status code "404"
     And the thingifier app should return an error message containing "Could not find any instances with"
 
