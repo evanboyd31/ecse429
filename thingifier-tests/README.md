@@ -1,6 +1,14 @@
 # Thingifier Tests
 
-## How to run:
+## How to run Gherkin feature tests (Part B):
+
+1. Make sure the Thingifier API is running, otherwise the tests will fail
+2. cd into the `thingifier-tests` directory: `cd thingifier-tests`
+3. Make sure you have installed the poetry module: `pip install poetry`
+4. Run `poetry install` to install all dependencies
+5. Run `poetry run behave` to run the tests in order. Run `poetry run python random_behave.py` to run the Gherkin feature tests in a random order.
+
+## How to run unit tests (Part A):
 
 1. Make sure the Thingifier API is running, otherwise the tests will fail 
 2. Go into the `thingifier-tests` directory
