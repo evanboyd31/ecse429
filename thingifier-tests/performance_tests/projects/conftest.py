@@ -1,7 +1,7 @@
 import time
 import pytest
 import httpx
-import thingifier_tests.conftest as common
+from performance_tests.conftest import *
 import xmltodict
 
 projects_url = "http://localhost:4567/projects"
@@ -21,10 +21,10 @@ test_projects = [
 # Runs before each test
 @pytest.fixture()
 def before_each():
-    if common.make_sure_system_ready() != True:
+    if make_sure_system_ready() != True:
         print("The system is not ready to be tested.")
         assert False
-    common.remove_all()
+    remove_all()
     for project in test_projects:
         project.pop("id", None)
         response = httpx.post(projects_url, json=project)

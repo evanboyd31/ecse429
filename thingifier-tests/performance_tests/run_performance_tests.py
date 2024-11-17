@@ -45,5 +45,4 @@ async def main(items_to_add: int):
 
 
 if __name__ == "__main__":
-    asyncio.run(main(100))
-    asyncio.run(main(100))
+    asyncio.run(main(1000))

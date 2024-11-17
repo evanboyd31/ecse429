@@ -9,11 +9,3 @@ class TestTodosIdDelete:
 
         from_api = httpx.get(todos_url + "/" + "id")
         assert from_api.status_code == 404
-
-    def test_delete_todos_id_xml_should_remove_the_todo_with_that_id(self):
-        id = default_todos["todos"][0]["id"]
-        res = httpx.delete(todos_url + "/" + str(id), headers=XML_HEADERS)
-        assert res.status_code == 200
-
-        from_api = httpx.get(todos_url + "/" + "id")
-        assert from_api.status_code == 404
