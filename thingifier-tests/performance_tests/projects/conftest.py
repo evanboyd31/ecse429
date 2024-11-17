@@ -35,9 +35,9 @@ def before_each():
         assert_project(expected=project, actual=response.json(), check_id=True)
 
     start_time = time.time()  # Record the start time
-    
+
     yield
-    
+
     end_time = time.time()  # Record the end time
     execution_time = end_time - start_time  # Calculate the execution time
     print(f"Test execution time: {execution_time:.2f} seconds")

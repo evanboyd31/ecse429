@@ -27,19 +27,13 @@ dummy_values = {
 system_state = {"todos": [], "projects": [], "categories": []}
 
 
-# Runs once before all tests in the module
-def pytest_sessionstart(session):
-    print("Setting up before all tests in all modules")
-    if make_sure_system_ready() != True:
-        print("The system is not ready to be tested.")
-        assert False
-    save_system_state()
-    remove_all()  # Clear all
-
-
-def pytest_sessionfinish(session, exitstatus):
-    print("Tearing down after all tests in the categories module")
-    restore_system_state()
+# Runs before each test
+@pytest.fixture(autouse=True)
+def before_each():
+    todos = httpx.get(url_header + "todos").json()["todos"]
+    categories = httpx.get(url_header + "categories").json()["categories"]
+    projects = httpx.get(url_header + "projects").json()["projects"]
+    print("Number of items ", len(todos), len(categories), len(projects))
 
 
 def remove_all():
@@ -48,11 +42,14 @@ def remove_all():
     projects = httpx.get(url_header + "projects").json()["projects"]
 
     for todo in todos:
-        httpx.delete(url_header + "todos/" + todo["id"])
+        if not todo["title"] == dummy_values["todo"]["title"]:
+            httpx.delete(url_header + "todos/" + todo["id"])
     for category in categories:
-        httpx.delete(url_header + "categories/" + category["id"])
+        if not category["title"] == dummy_values["category"]["title"]:
+            httpx.delete(url_header + "categories/" + category["id"])
     for project in projects:
-        httpx.delete(url_header + "projects/" + project["id"])
+        if not project["title"] == dummy_values["project"]["title"]:
+            httpx.delete(url_header + "projects/" + project["id"])
 
 
 def create_one_of_each():

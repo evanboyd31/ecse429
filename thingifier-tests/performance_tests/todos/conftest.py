@@ -58,8 +58,6 @@ def contain_the_same_todos(todos1, todos2) -> bool:
         todos2 = todos2["todos"]
     elif "todo" in todos2:
         todos2 = todos2["todo"]
-    print(todos1)
-    print(todos2)
 
     todos1 = sorted(todos1, key=lambda todo: todo["id"])
     todos2 = sorted(todos2, key=lambda todo: todo["id"])
@@ -88,7 +86,7 @@ def before_each():
     start_time = time.time()  # Record the start time
 
     yield
-    
+
     end_time = time.time()  # Record the end time
     execution_time = end_time - start_time  # Calculate the execution time
     print(f"Test execution time: {execution_time:.2f} seconds")
