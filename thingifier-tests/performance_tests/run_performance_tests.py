@@ -43,6 +43,11 @@ def find_process_by_name(name):
             pass
 
 
+async def create_items_concurrently(items_to_add: int):
+    tasks = [asyncio.to_thread(create_one_of_each) for _ in range(items_to_add)]
+    await asyncio.gather(*tasks)
+
+
 async def run_pytest():
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, pytest.main, ["-s", "./"])
@@ -59,8 +64,7 @@ async def main():
     for items_to_add in item_counts:
         num_items += items_to_add
 
-        for _ in range(items_to_add):
-            create_one_of_each()
+        await create_items_concurrently(items_to_add)
 
         await run_pytest()
 
