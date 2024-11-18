@@ -11,6 +11,7 @@ num_items = 0
 
 async def monitor_process_usage(process: psutil.Process):
     global num_items
+    print(f"Doing {num_items} items")
     log_file_name = f"process_usage_{num_items}_items.log"
     try:
         with open(log_file_name, "a") as log_file:
@@ -58,19 +59,17 @@ async def main():
 
     process = find_process_by_name("java")
 
-    monitor_task = asyncio.create_task(monitor_process_usage(process))
-
-    item_counts = [100]
+    item_counts = [10, 90, 400, 500, 1000, 3000, 5000]
     for items_to_add in item_counts:
         num_items += items_to_add
-
         await create_items_concurrently(items_to_add)
+
+        monitor_task = asyncio.create_task(monitor_process_usage(process))
 
         await run_pytest()
 
-    # Ensure the process is still running before trying to kill it
-    monitor_task.cancel()
-    await monitor_task
+        monitor_task.cancel()
+        await monitor_task
 
 
 if __name__ == "__main__":
