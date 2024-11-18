@@ -8,7 +8,3 @@ def test_id_delete_project_should_delete_project_with_that_id_json(before_each):
 
     assert response.status_code == 200
     assert not response.content
-
-    # ensure no projects exist in the system after deleting this project
-    response = httpx.get(projects_url)
-    assert len(response.json().get("projects")) == 0

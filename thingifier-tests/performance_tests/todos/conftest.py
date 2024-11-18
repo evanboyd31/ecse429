@@ -1,7 +1,7 @@
 import time
 import httpx
 import pytest
-import thingifier_tests.conftest as common
+from performance_tests.conftest import *
 import xmltodict
 import copy
 
@@ -72,10 +72,10 @@ def todos_has_not_changed() -> bool:
 
 @pytest.fixture(autouse=True)
 def before_each():
-    if common.make_sure_system_ready() != True:
+    if make_sure_system_ready() != True:
         print("The system is not ready to be tested.")
         assert False
-    common.remove_all()
+    remove_all()
     for todo in default_todos["todos"]:
         todo.pop("id")
         todo["doneStatus"] = False

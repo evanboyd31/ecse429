@@ -1,5 +1,4 @@
 import asyncio
-import subprocess
 import os
 from time import sleep
 import psutil
@@ -29,18 +28,14 @@ async def monitor_process_usage(process: psutil.Process):
         pass
 
 
-import psutil
+async def start_subprocess(command: list[str]):
+    process = await asyncio.create_subprocess_exec(
+        *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    psutil_process = psutil.Process(process.pid)
 
-
-def find_process_by_name(name):
-    # Iterate over all running processes
-    for proc in psutil.process_iter(["pid", "name"]):
-        try:
-            if proc.info["name"] == name:
-                print(f"Found process: {proc.info['name']} (PID: {proc.info['pid']})")
-                return proc
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
+    psutil_process.cpu_percent(interval=None)
+    return process, psutil_process
 
 
 async def run_pytest():
@@ -51,9 +46,14 @@ async def run_pytest():
 async def main():
     global num_items
 
-    process = find_process_by_name("java")
+    subprocess_command = [
+        "java",
+        "-jar",
+        "../../../Application_Being_Tested/runTodoManagerRestAPI-1.5.5.jar",
+    ]  # Update as needed
+    process, psutil_process = await start_subprocess(subprocess_command)
 
-    monitor_task = asyncio.create_task(monitor_process_usage(process))
+    monitor_task = asyncio.create_task(monitor_process_usage(psutil_process))
 
     item_counts = [100]
     for items_to_add in item_counts:
@@ -65,6 +65,17 @@ async def main():
         await run_pytest()
 
     # Ensure the process is still running before trying to kill it
+    if psutil_process.is_running():
+        print("run")
+        try:
+            process.kill()  # Attempt to kill the process
+        except psutil.NoSuchProcess:
+            print("Process already terminated.")
+        except psutil.AccessDenied:
+            print("Access denied when trying to kill the process.")
+    else:
+        print("hi")
+
     monitor_task.cancel()
     await monitor_task
 

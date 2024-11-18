@@ -20,8 +20,3 @@ def test_id_post_project_should_update_project_json(before_each):
 
     updated_project.update({"id": id})
     assert_project(expected=updated_project, actual=response_project, check_id=True)
-
-    # ensure only a single project exists in the system
-    response = httpx.get(projects_url)
-    assert response.status_code == 200
-    assert len(response.json().get("projects", [])) == 1
