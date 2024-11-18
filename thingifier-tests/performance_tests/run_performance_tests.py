@@ -14,7 +14,7 @@ async def monitor_process_usage(process: psutil.Process):
     print(f"Doing {num_items} items")
     log_file_name = f"process_usage_{num_items}_items.log"
     try:
-        with open(log_file_name, "a") as log_file:
+        with open(log_file_name, "w") as log_file:
             while True:
                 try:
                     cpu_usage = process.cpu_percent(interval=None) / psutil.cpu_count()
@@ -25,7 +25,7 @@ async def monitor_process_usage(process: psutil.Process):
                     log_file.flush()
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     break
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.1)
     except asyncio.CancelledError:
         pass
 
