@@ -4,7 +4,7 @@ import os
 from time import sleep
 import psutil
 import pytest
-from performance_tests.conftest import create_one_of_each
+from performance_tests.conftest import *
 
 num_items = 0
 
@@ -30,9 +30,6 @@ async def monitor_process_usage(process: psutil.Process):
         pass
 
 
-import psutil
-
-
 def find_process_by_name(name):
     # Iterate over all running processes
     for proc in psutil.process_iter(["pid", "name"]):
@@ -49,6 +46,21 @@ async def create_items_concurrently(items_to_add: int):
     await asyncio.gather(*tasks)
 
 
+async def remove_all_concurrently():
+    todos = httpx.get(url_header + "todos").json()["todos"]
+    categories = httpx.get(url_header + "categories").json()["categories"]
+    projects = httpx.get(url_header + "projects").json()["projects"]
+
+    tasks = []
+    for todo in todos:
+        tasks.append(asyncio.to_thread(httpx.delete, url_header + "todos/" + todo["id"]))
+    for category in categories:
+        tasks.append(asyncio.to_thread(httpx.delete, url_header + "categories/" + category["id"]))
+    for project in projects:
+        tasks.append(asyncio.to_thread(httpx.delete, url_header + "projects/" + project["id"]))
+    await asyncio.gather(*tasks)
+
+
 async def run_pytest():
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, pytest.main, ["-s", "./"])
@@ -56,6 +68,8 @@ async def run_pytest():
 
 async def main():
     global num_items
+
+    await remove_all_concurrently()
 
     process = find_process_by_name("java")
 
@@ -70,6 +84,8 @@ async def main():
 
         monitor_task.cancel()
         await monitor_task
+
+    await remove_all_concurrently()
 
 
 if __name__ == "__main__":
