@@ -1,0 +1,17 @@
+categories/id/test_categories_delete_id.py .Test execution time: 0.02 seconds
+
+categories/id/test_categories_post_id.py .Test execution time: 0.01 seconds
+
+categories/test_categories_post.py .Test execution time: 0.01 seconds
+
+projects/id/test_projects_id_delete.py .Test execution time: 0.01 seconds
+
+projects/id/test_projects_id_post.py .Test execution time: 0.01 seconds
+
+projects/test_projects_post.py .Test execution time: 0.01 seconds
+
+todos/id/test_todos_id_delete.py .Test execution time: 0.02 seconds
+
+todos/id/test_todos_id_post.py .Test execution time: 0.04 seconds
+
+todos/test_todos_post.py .Test execution time: 0.02 seconds

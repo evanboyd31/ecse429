@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import redirect_stdout
 import subprocess
 import os
 from time import sleep
@@ -53,17 +54,28 @@ async def remove_all_concurrently():
 
     tasks = []
     for todo in todos:
-        tasks.append(asyncio.to_thread(httpx.delete, url_header + "todos/" + todo["id"]))
+        tasks.append(
+            asyncio.to_thread(httpx.delete, url_header + "todos/" + todo["id"])
+        )
     for category in categories:
-        tasks.append(asyncio.to_thread(httpx.delete, url_header + "categories/" + category["id"]))
+        tasks.append(
+            asyncio.to_thread(httpx.delete, url_header + "categories/" + category["id"])
+        )
     for project in projects:
-        tasks.append(asyncio.to_thread(httpx.delete, url_header + "projects/" + project["id"]))
+        tasks.append(
+            asyncio.to_thread(httpx.delete, url_header + "projects/" + project["id"])
+        )
     await asyncio.gather(*tasks)
 
 
 async def run_pytest():
-    loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(None, pytest.main, ["-s", "./"])
+    global num_items
+
+    with open(f"test_output_{num_items}_items.log", "w") as log_file:
+        with redirect_stdout(log_file):
+            return await asyncio.get_event_loop().run_in_executor(
+                None, pytest.main, ["-s", "./"]
+            )
 
 
 async def main():
