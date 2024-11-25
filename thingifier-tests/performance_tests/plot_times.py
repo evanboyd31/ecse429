@@ -9,7 +9,7 @@ def parse_logs(log_files):
 
     # Regex pattern to extract details
     pattern = re.compile(
-        r"(?P<operation>.+)/(?P<subdir>.+)/test_(?P<test_name>.+)\.py .*?Test execution time: (?P<time>\d+\.\d+) seconds"
+        r"(?P<operation>.+?)(?:/id)?/test_(?P<test_name>.+)\.py .*?Test execution time: (?P<time>\d+\.\d+) seconds"
     )
 
     for file in log_files:
