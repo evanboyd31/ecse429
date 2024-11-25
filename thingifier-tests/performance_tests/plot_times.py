@@ -39,8 +39,8 @@ def plot_data(data):
         plt.ylabel("Execution Time (seconds)")
         plt.title(f"Execution Time for {key}")
         plt.tight_layout()
-        plt.savefig(f"{key}_execution_time.png")
         plt.grid(True)
+        plt.savefig(f"execution_time_{key}.png")
         plt.show()
 
 
