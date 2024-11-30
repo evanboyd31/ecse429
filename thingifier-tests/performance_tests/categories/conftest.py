@@ -18,23 +18,23 @@ def setup_each():
     if make_sure_system_ready() != True:
         print("The system is not ready to be tested.")
         assert False
-    
+
     # Create a few instances that will be used in tests
     for i in range(len(test_categories)):
         response = httpx.post(url_header + "categories", json=test_categories[i]).json()
         test_categories[i].update({"id": response["id"]})
-    
+
     start_time = time.time()  # Record the start time
-    
+
     yield
-    
+
     end_time = time.time()  # Record the end time
     execution_time = end_time - start_time  # Calculate the execution time
     print(f"Test execution time: {execution_time:.2f} seconds")
-    
+
     print("Tearing down after each categories test")
     remove_all()
-    
+
     # Clear out the Ids
     for i in range(len(test_categories)):
         del test_categories[i]["id"]
